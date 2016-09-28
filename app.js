@@ -53,6 +53,7 @@ app.post('/changeAccountDetails', account.changeAccountDetails);
 app.get('/sellItemPage', account.getSellItemPage);
 
 app.post('/sellItem', sell.sellItem);
+app.post('/getSellItems', sell.getSellItems);
 
 
 app.get('/', home.homepage);

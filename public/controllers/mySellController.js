@@ -107,6 +107,39 @@ mySell.controller('mySellList', function($scope, $http){
     }
 
 
+    $scope.loadSellItems  = function () {
+
+        init();
+        console.log("In Load Sell Items controller method");
+
+        $http({
+            method : "POST",
+            url : '/getSellItems'
+           
+        }).success(function(data) {
+
+            if (data.statusCode == 401) {
+
+
+            }
+            else if(data.statusCode==201)
+            {
+
+            }
+            else {
+                console.log("Result");
+                console.log(data.data);
+                $scope.sellItems = data.data;
+            }
+
+        }).error(function(error) {
+            console.log(error);
+        });
+
+
+
+    }
+
     function init() {
 
         $scope.name_invalid = false;

@@ -50,4 +50,36 @@ function sellItem(req,res) {
 }
 
 
+function getSellItems(req,res) {
+
+        var user_id = req.session.user_id;
+        var query="select * from product_details where quantity>0 and seller_user_id="+user_id;
+
+        mysql.fetchData(function (err,result) {
+
+            if(err){
+                console.log(err);
+                var json = {"statusCode":401};
+                res.send(json);
+            }
+            else{
+
+                if(result.length>0) {
+                    var json = {"statusCode": 200, "data": result};
+                    console.log(result);
+                    res.send(json);
+                }
+                else{
+
+                    var json = {"statusCode": 201};
+                    console.log(result);
+                    res.send(json);
+                }
+            }
+
+        },query);
+
+}
+
 exports.sellItem = sellItem;
+exports.getSellItems = getSellItems;

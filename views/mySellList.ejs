@@ -18,7 +18,7 @@
 
 
 </head>
-<body ng-app="mySellList" ng-controller="mySellList">
+<body ng-app="mySellList" ng-controller="mySellList" ng-init="loadSellItems()">
 <% include include.ejs %>
 
 
@@ -39,27 +39,24 @@
                 <table class="table table-bordered"  >
                     <thead>
                     <tr>
-                        <th>Firstname</th>
-                        <th>Lastname</th>
-                        <th>Email</th>
+                        <th>Item Name</th>
+                        <th>Item Details</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>John</td>
-                        <td>Doe</td>
-                        <td>john@example.com</td>
+                    <tr ng-repeat = "item in sellItems" ng-if='item.isAuction=="No"'>
+
+
+                        <td>{{item.product_name}}</td>
+                        <td>{{item.details}}</td>
+                        <td>{{item.price}}$</td>
+                        <td>{{item.quantity}}</td>
+
                     </tr>
-                    <tr>
-                        <td>Mary</td>
-                        <td>Moe</td>
-                        <td>mary@example.com</td>
-                    </tr>
-                    <tr>
-                        <td>July</td>
-                        <td>Dooley</td>
-                        <td>july@example.com</td>
-                    </tr>
+
                     </tbody>
                 </table>
             </div>
@@ -81,27 +78,24 @@
                 <table class="table table-bordered">
                     <thead>
                     <tr>
-                        <th>Firstname</th>
-                        <th>Lastname</th>
-                        <th>Email</th>
+                        <th>Item Name</th>
+                        <th>Item Details</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>John</td>
-                        <td>Doe</td>
-                        <td>john@example.com</td>
+                    <tr ng-repeat = "item in sellItems" ng-if='item.isAuction=="Yes"'>
+
+
+                        <td>{{item.product_name}}</td>
+                        <td>{{item.details}}</td>
+                        <td>{{item.price}}$</td>
+                        <td>{{item.quantity}}</td>
+
                     </tr>
-                    <tr>
-                        <td>Mary</td>
-                        <td>Moe</td>
-                        <td>mary@example.com</td>
-                    </tr>
-                    <tr>
-                        <td>July</td>
-                        <td>Dooley</td>
-                        <td>july@example.com</td>
-                    </tr>
+
                     </tbody>
                 </table>
 
