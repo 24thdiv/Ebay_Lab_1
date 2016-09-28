@@ -22,6 +22,8 @@ mySell.controller('mySellList', function($scope, $http){
         var price = $scope.price;
         var isAuction = $scope.isAuction;
         var check = true;
+        console.log("Is Auction is ");
+        console.log(isAuction);
 
         if(pro_name==undefined){
             check = false;
@@ -69,6 +71,38 @@ mySell.controller('mySellList', function($scope, $http){
             check = false;
         }
 
+        if(check){
+
+            $http({
+                method : "POST",
+                url : '/sellItem',
+                data : {
+                    "pro_name": pro_name,
+                    "pro_desc": pro_desc,
+                    "quantity" : quantity,
+                    "price" : price,
+                    "isAuction" : isAuction
+                }
+            }).success(function(data) {
+
+                if (data.statusCode == 401) {
+
+                    $scope.fail_model = true;
+
+                }
+                else
+                {
+                    $scope.success_model = true;
+                }
+
+            }).error(function(error) {
+                console.log(error);
+            });
+
+
+
+
+        }
 
     }
 
@@ -82,6 +116,8 @@ mySell.controller('mySellList', function($scope, $http){
         $scope.auction_invalid = false;
         $scope.qun_wrong = false;
         $scope.price_wrong = false;
+        $scope.success_model = false;
+        $scope.fail_model = false;
     }
 
 

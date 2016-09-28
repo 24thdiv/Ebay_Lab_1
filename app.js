@@ -8,6 +8,7 @@ var session  = require("express-session");
 var home = require('./routes/home');
 var signIn = require('./routes/signIn');
 var account = require('./routes/account');
+var sell = require('./routes/sell');
 var app = express();
 
 
@@ -50,6 +51,9 @@ app.get('/mySellItems', account.mySellItems);
 app.post('/getAccountDetails', account.getAccountDetails);
 app.post('/changeAccountDetails', account.changeAccountDetails);
 app.get('/sellItemPage', account.getSellItemPage);
+
+app.post('/sellItem', sell.sellItem);
+
 
 app.get('/', home.homepage);
 // catch 404 and forward to error handler

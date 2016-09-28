@@ -78,8 +78,8 @@
             <tr>
                 <td width="30%">Listing Format</td>
                 <td width="70%">
-                    <label class="radio-inline"><input type="radio" ng-model="isAuction" value='"Yes"' name="optradio" >Auction</label>
-                    <label class="radio-inline"><input type="radio" ng-model="isAuction" value='"No"' name="optradio">Fixed Price</label>
+                    <label class="radio-inline"><input type="radio" ng-model="isAuction" value="Yes" name="optradio" >Auction</label>
+                    <label class="radio-inline"><input type="radio" ng-model="isAuction" value="No" name="optradio">Fixed Price</label>
                     <p style="color:red" ng-show="auction_invalid">Listing Format is Required</p>
                 </td>
             </tr>
@@ -94,6 +94,19 @@
 
     <b><input type="submit" class="btn btn-primary  btn-lg" ng-click="addItemtoSell()" value="Add Item to Sell"></b>
     </div>
+<br>
+       <b>
+                <br>
+                <br>
+                <div align="center" class="alert alert-success col-md-5 col-md-offset-3" ng-model="success" ng-show="success_model">Your Item has been added in List.</div>
+       </b>
+       <b>
+
+
+           <div align="center" class="alert alert-danger col-md-5 col-md-offset-3" ng-model="fail" ng-show="fail_model">Please Try After Some Time.</div>
+       </b>
+
+
     <p></p>
     <p></p>
 </form>
