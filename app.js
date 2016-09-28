@@ -57,6 +57,8 @@ app.post('/getSellItems', sell.getSellItems);
 
 
 app.get('/', home.homepage);
+app.post('/getAllItems', home.getAllItems);
+app.get('/product_details', home.getProductDetails);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
