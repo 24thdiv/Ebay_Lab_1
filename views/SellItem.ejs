@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ebay Sell</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-messages.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- <script type="text/css" src="stylesheets/SignIn.css"></script>-->
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="stylesheets/include.css">
+    <script src="controllers/mySellController.js"></script>
+
+
+
+</head>
+<body ng-app = "mySellList" ng-controller="mySellList">
+<% include include.ejs %>
+<br>
+<br>
+
+<form name="sellItem" >
+
+    <div class = "panel panel-default" align="center" style="width: 600px; margin-left: 400px">
+        <div class = "panel-heading">
+            <h3 class = "panel-title"><b>Describe your item</b></h3>
+        </div>
+
+        <table class = "table">
+
+            <tr>
+                <td width="30%">Item Name</td>
+                <td width="70%">
+                    <input type="text" ng-model="pro_name" class="form-control" required>
+                    <p style="color:red" ng-show="name_invalid">Item Name is Required</p>
+                </td>
+
+            </tr>
+
+            <tr>
+                <td width="30%">Item Description</td>
+                <td width="70%">
+                    <textarea ng-model="pro_desc" class="form-control" required></textarea>
+                    <p style="color:red" ng-show="desc_invalid">Item Description is Required</p>
+                </td>
+            </tr>
+
+            <tr>
+                <td width="30%">Price</td>
+                <td width="70%">
+                    <div class="input-group">
+                        <span class="input-group-addon">$</span>
+                        <input type="text" ng-model = "price" class="form-control" aria-label="Amount (to the nearest dollar)" required>
+                        <span class="input-group-addon">.00</span>
+
+
+                    </div>
+                    <p style="color:red" ng-show="price_invalid">Price is Invalid</p>
+                    <p style="color:red" ng-show="price_wrong">Require 1 to 10 digits</p>
+                </td>
+            </tr>
+
+            <tr>
+                <td width="30%">Quantity</td>
+                <td width="70%">
+                    <input type="text" ng-model= "quantity" class="form-control" required>
+                    <p style="color:red" ng-show="quantity_invalid">Quantity is Invalid</p>
+                    <p style="color:red" ng-show="qun_wrong">Require 1 to 10 digits</p>
+
+                </td>
+            </tr>
+
+            <tr>
+                <td width="30%">Listing Format</td>
+                <td width="70%">
+                    <label class="radio-inline"><input type="radio" ng-model="isAuction" value='"Yes"' name="optradio" >Auction</label>
+                    <label class="radio-inline"><input type="radio" ng-model="isAuction" value='"No"' name="optradio">Fixed Price</label>
+                    <p style="color:red" ng-show="auction_invalid">Listing Format is Required</p>
+                </td>
+            </tr>
+
+
+        </table>
+
+    </div>
+
+
+    <div class="col-md-7 col-md-offset-4">
+
+    <b><input type="submit" class="btn btn-primary  btn-lg" ng-click="addItemtoSell()" value="Add Item to Sell"></b>
+    </div>
+    <p></p>
+    <p></p>
+</form>
+</body>
+</html>

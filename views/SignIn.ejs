@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ebay Sign In</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-messages.js"></script>
+
+
+    <!-- Latest compiled and minified CSS -->
+    
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- <script type="text/css" src="stylesheets/SignIn.css"></script>-->
+    <link rel="stylesheet" href="stylesheets/SignIn.css">
+    <link rel="stylesheet" href="stylesheets/include.css">
+    <script src="controllers/signInController.js"></script>
+
+</head>
+
+<body>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<div class="container" ng-app="signIn" >
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-5">
+            <table class="gh-tbl">
+                <tbody>
+                <tr>
+                    <td class="gh-td"><!--[if lt IE 9]>
+                        <a href="http://www.ebay.com/"  _sp="m570.l2586" id="gh-la"><img role="presentation"  width=117 height=120 style='clip:rect(47px, 118px, 95px, 0px); position:absolute; top:-47px;left:0'  alt="" src="https://secureir.ebaystatic.com/rs/v/apstidvcvu5pxlbxkphrrdo5iqv.png" id="gh-logo"></a>
+                        <![endif]--><!--[if (gte IE 9)|!(IE)]><!--><a href="#" _sp="m570.l2586" id="gh-la"><font color="#f8f8f8">This is some text!</font><img role="presentation" width="250" height="200" style="clip:rect(47px, 118px, 95px, 0px); position:absolute; top:-47px;left:0" alt="" src="https://secureir.ebaystatic.com/rs/v/fxxj3ttftm5ltcqnto1o4baovyl.png" id="gh-logo"></a>
+                        <!--<![endif]--></td></tr></tbody></table>
+        </div>
+
+    </div>
+<br>
+    <br>
+    <div class="row">
+        <div class="col-md-5 col-md-offset-3">
+            <div class="panel panel-login">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <span class = "glyphicon glyphicon-circle-arrow-right"></span>
+                            <a href="#" class="active" id="login-form-link">Login</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <span class="glyphicon glyphicon-plus-sign"></span>
+                            <a href="#" id="register-form-link">Register</a>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <div class="panel-body" ng-app="signIn" ng-controller="signInController">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <form id="loginForm" name="loginForm" role="form" style="display: block;">
+                                <div class="form-group">
+                                    <input type="email" name="emailId" id="emailId" ng-model="emailId" tabindex="1" class="form-control" placeholder="Email" value="" required="">
+                                    
+                                    <p style="color:red" ng-show="email_invalid">Invalid Email</p>
+
+
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" name="password" ng-model="password" id="password" tabindex="2" class="form-control" placeholder="Password" required="">
+                                      <p style="color:red" ng-show="password_invalid">Password is Required</p>
+
+                                </div>
+                                <div class="form-group text-center">
+                                    <div style="color:red" ng-show="invalid_login">Email or Password is Incorrect.</div>
+                                    
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div align="center" class="col-md-10 col-md-offset-1">
+                                            <input type="submit" name="login-submit" id="login-submit" ng-click="checklogin()" tabindex="4" class="btn btn-primary btn-block" value="Log In">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </form>
+                            <form id="registerForm" name="registerForm" role="form" style="display: none;">
+                                <div class="form-group">
+                                    <input type="email" ng-model="email_reg" name="email_reg" id="email_reg" tabindex="1" class="form-control" placeholder="Email" value="" required>
+                                    <p style="color:red" ng-show="email_reg_invalid">Email is Required</p>
+                                    <p style="color:red" ng-show="email_already">Email is already registered</p>
+
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" ng-model="email_reg_con" name="email_reg_con" id="email_reg_con" tabindex="1" class="form-control" placeholder="Reenter Email" value="" required>
+                                    <p style="color:red" ng-show="email_match_invalid">Email should be Matched</p>
+                                    <p style="color:red" ng-show="email_con_invalid">Email is Required</p>
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" ng-model="password_reg" name="password_reg" id="password_reg" tabindex="2" class="form-control" placeholder="Password" required>
+                                    <p style="color:red" ng-show="password_reg_invalid">Password is Required</p>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md -12">
+                                      <table>
+                                          <tbody>
+                                          <tr>
+                                              <td>
+                                                  <input type="text" ng-model="fname" name="fname" id="fname" tabindex="2" class="form-control" placeholder="First name" required>
+                                                  <p style="color:red" ng-show="fname_invalid">First Name is Required</p>
+                                              </td>
+                                              <td width="10">
+
+                                              </td>
+                                              <td>
+                                                  <input type="text" ng-model="lname" name="lname" id="lname" tabindex="2" class="form-control" placeholder="Last name" required>
+                                                  <p style="color:red" ng-show="lname_invalid">Last Name is Required</p>
+                                              </td>
+                                          </tr>
+                                          </tbody>
+                                      </table>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" ng-model="phone" name="phone" id="phone" tabindex="2" class="form-control" placeholder="Mobile phone" required>
+                                    <p style="color:red" ng-show="phone_invalid">Phone is Required</p>
+                                    <p style="color:red" ng-show="phone_num_invalid">Phone Number requires 10 digits. </p>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="text" ng-model="address" name="address" id="address" tabindex="2" class="form-control" placeholder="Address" required>
+                                    <p style="color:red" ng-show="address_invalid">Address is Required</p>
+
+                                </div>
+
+
+                                <div class="form-group">
+                                    <input type="text" ng-model="city" name="city" id="city" tabindex="2" class="form-control" placeholder="City" required>
+                                    <p style="color:red" ng-show="city_invalid">City is Required</p>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="text" ng-model="state" name="state" id="state" tabindex="2" class="form-control" placeholder="State" required>
+                                    <p style="color:red" ng-show="state_invalid">State is Required</p>
+
+                                </div>
+
+
+                                <div class="form-group">
+                                    <input type="text" ng-model="pin" name="pin" id="pin" tabindex="2" class="form-control" placeholder="Pin Code" required>
+                                    <p style="color:red" ng-show="pin_invalid">Pin Code is Required</p>
+                                    <p style="color:red" ng-show="pin_wrong">Require 5 Digits</p>
+
+                                </div>
+
+
+
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div align="center" class="col-md-10 col-md-offset-1">
+                                            <input type="submit" ng-click="register()" name="signupSubmit" id="signupSubmit" tabindex="4" class="btn btn-primary btn-block" value="Register">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<script type="text/javascript">
+
+    $(function() {
+
+        $('#login-form-link').click(function(e) {
+            $("#loginForm").delay(100).fadeIn(100);
+            $("#registerForm").fadeOut(100);
+            $('#register-form-link').removeClass('active');
+            $(this).addClass('active');
+            e.preventDefault();
+        });
+        $('#register-form-link').click(function(e) {
+            $("#registerForm").delay(100).fadeIn(100);
+            $("#loginForm").fadeOut(100);
+            $('#login-form-link').removeClass('active');
+            $(this).addClass('active');
+            e.preventDefault();
+        });
+
+    });
+
+
+
+</script>
+
+
+
+</div>
+
+
+</body>
+
+
+
+</html>

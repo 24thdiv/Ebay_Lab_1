@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ebay Profile</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-messages.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- <script type="text/css" src="stylesheets/SignIn.css"></script>-->
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="stylesheets/include.css">
+    <script src="controllers/mySellController.js"></script>
+
+
+</head>
+<body ng-app="mySellList" ng-controller="mySellList">
+<% include include.ejs %>
+
+
+<div class="container">
+    <h3>My Sell Details</h3>
+    <br>
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#home"><b>On Sell</b></a></li>
+        <li><a href="#menu1"><b>On Auction</b></a></li>
+        <li><a href="#menu2"><b>Sold</b></a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+            <h3>On Sell Items</h3>
+            <div class = "panel panel-default" align="center"  style="width: 600px;">
+
+                <table class="table table-bordered"  >
+                    <thead>
+                    <tr>
+                        <th>Firstname</th>
+                        <th>Lastname</th>
+                        <th>Email</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>john@example.com</td>
+                    </tr>
+                    <tr>
+                        <td>Mary</td>
+                        <td>Moe</td>
+                        <td>mary@example.com</td>
+                    </tr>
+                    <tr>
+                        <td>July</td>
+                        <td>Dooley</td>
+                        <td>july@example.com</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div col-md-4 col-md-offset-3>
+                <input type="button" name="sellbutton" ng-click="sellItem()" class="btn btn-primary" value="Sell Item" style="height: 50px;width: 150px"  >
+
+            </div>
+
+        </div>
+
+
+
+        <div id="menu1" class="tab-pane fade">
+            <h3>On Auction Items</h3>
+
+
+            <div class = "panel panel-default" align="center" style="width: 600px; ">
+
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Firstname</th>
+                        <th>Lastname</th>
+                        <th>Email</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>john@example.com</td>
+                    </tr>
+                    <tr>
+                        <td>Mary</td>
+                        <td>Moe</td>
+                        <td>mary@example.com</td>
+                    </tr>
+                    <tr>
+                        <td>July</td>
+                        <td>Dooley</td>
+                        <td>july@example.com</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+
+
+
+
+
+        <div id="menu2" class="tab-pane fade">
+            <h3>Sold Items</h3>
+
+            <div class = "panel panel-default" align="center" style="width: 600px;">
+
+
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Firstname</th>
+                        <th>Lastname</th>
+                        <th>Email</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>john@example.com</td>
+                    </tr>
+                    <tr>
+                        <td>Mary</td>
+                        <td>Moe</td>
+                        <td>mary@example.com</td>
+                    </tr>
+                    <tr>
+                        <td>July</td>
+                        <td>Dooley</td>
+                        <td>july@example.com</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $(".nav-tabs a").click(function(){
+            $(this).tab('show');
+        });
+    });
+</script>
+
+
+</body>
+</html>

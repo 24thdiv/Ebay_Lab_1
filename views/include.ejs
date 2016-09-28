@@ -1,0 +1,98 @@
+
+<div class = "include">
+        <div class="container-fluid">
+
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" style="color: black" data-toggle="dropdown" href="#">Hi <span style="color: blue"><%=fname%></span><span class="caret"></span></a>
+                        <%if(fname){%>
+                            <ul class="dropdown-menu">
+
+                                <li><a class="fontSize" href="#" style="color: black">My Collection</a></li>
+                                <li><a class="fontSize" href="/accountManagement" style="color: black">Account Setting</a></li>
+                                <li><a class="fontSize" href="/logout" style="color: black">Log Out</a></li>
+                            </ul>
+                        <%}%>
+                    </li>
+                    <%if(!fname){%>
+                        <li><a class="fontSize" href="/signIn" style="color: black"><span  style="color: blue">SignIn</span></a></li>
+                    <%}else{%>
+
+                        <li><a class="fontSize" href="#" style="..."><span style="...">Last Login: <%=lld%></span></a></li>
+                        <li><a class="fontSize" href="/mySellItems" style="color: black">Sell</a></li>
+                    <%}%>
+
+
+                    <li><a class="fontSize" href="#" style="color: black">Help & Contact</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" style="color: black" data-toggle="dropdown" href="#">My eBay <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+
+                            <%if(fname){%>
+                            <li><a class="fontSize" href="#" style="color: black">Summery</a></li>
+                            <li><a class="fontSize" href="#" style="color: black">Bids/Offers</a></li>
+                            <li><a class="fontSize" href="#" style="color: black">Watch List</a></li>
+                            <li><a class="fontSize" href="#" style="color: black">Wish List</a></li>
+                            <li><a class="fontSize" href="#" style="color: black">All List</a></li>
+                            <li><a class="fontSize" href="#" style="color: black">Purchase History</a></li>
+                            <li><a class="fontSize" href="#" style="color: black">Selling</a></li>
+                            <li><a class="fontSize" href="#" style="color: black">My Collections</a></li>
+                            <li><a class="fontSize" href="#" style="color: black">Followed Searches </a></li>
+                            <li><a class="fontSize" href="#" style="color: black">Messages</a></li>
+                            <%}%>
+                        </ul>
+                    </li>
+
+                    <li><a class="fontSize" href="#" style="color: black"><span class="glyphicon glyphicon-envelope"></span></a></li>
+                    <%if(fname){%>
+                    <li><a class="fontSize" href="#" style="color: black"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
+                    <%}%>
+                </ul>
+            </div>
+
+
+        </div>
+
+</div>
+<div class="row">
+    <table style="width:100%">
+        <tbody>
+        <tr>
+
+            <td width="20%">
+                <h1>
+
+                    <a href="#" ><font color="#f8f8f8">!</font>
+                        <img role="presentation" width="250" height="200" style="clip:rect(47px, 118px, 95px, 0px); position:absolute; top:10px;left:140px" alt="" src="http://ir.ebaystatic.com/rs/v/fxxj3ttftm5ltcqnto1o4baovyl.png" id="gh-logo">
+                    </a><!--<![endif]-->
+                </h1>
+            </td>
+
+            <td width="49%">
+
+                <input type="text" name="searchvalue" class="form-control" placeholder="Search..." style="height: 50px " >
+
+            </td>
+            <td width="1%">
+
+            </td>
+            <td width="30%">
+                <%if(fname){%>
+                <input type="button" name="searchbutton" class="btn btn-primary" value="Search" style="height: 50px;width: 150px"  >
+                <%}else{%>
+                <input type="button" name="searchbutton" class="btn btn-primary" value="Search" style="height: 50px;width: 150px"  >
+                <%}%>
+            </td>
+
+        </tr>
+
+        </tbody>
+
+    </table>
+
+
+</div>
