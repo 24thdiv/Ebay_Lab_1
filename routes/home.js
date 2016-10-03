@@ -12,7 +12,7 @@ function homepage(req,res){
             "email" : req.session.email,
             "fname" : req.session.fname,
             "lld"   : req.session.lld
-        }
+        };
 
         ejs.renderFile('./views/home.ejs',data, function (err, result) {
 
@@ -31,7 +31,17 @@ function homepage(req,res){
 function getAllItems(req,res) {
 
 
-    var query = "select * from product_details where isAuction='No' and quantity>0";
+    var user_id= req.session.user_id;
+    console.log("user_id "+user_id);
+    if(user_id==undefined)
+    {
+        var query = "select * from product_details where isAuction='No' and quantity>0";
+    }
+    else{
+        var query = "select * from product_details where isAuction='No' and quantity>0 and seller_user_id!="+user_id;
+    }
+
+
     console.log("Query is "+query);
 
     mysql.fetchData(function (err,result) {
@@ -61,7 +71,7 @@ function getAllItems(req,res) {
 
 }
 
-function getProductDetails(req,res) {
+function getProductDetailsPage(req,res) {
 
     var product_id = req.query.id;
     console.log("Product ID "+ product_id);
@@ -73,7 +83,7 @@ function getProductDetails(req,res) {
         "fname" : req.session.fname,
         "lld"   : req.session.lld,
         "product_id" : product_id
-    }
+    };
 
     ejs.renderFile('./views/productPage.ejs',data, function (err, result) {
 
@@ -89,9 +99,188 @@ function getProductDetails(req,res) {
 
 }
 
+function getProductDetails(req,res) {
+
+    var product_id = req.param("product_id");
+
+    var query = "select * from product_details where product_id="+product_id;
+    mysql.fetchData(function (err,result) {
+
+        if(err){
+            console.log(err);
+            json = {"statusCode" : 401};
+            res.send(json);
+        }
+        else if(result.length>0){
+
+            console.log("Product details");
+            console.log(result);
+            var json = {"statusCode" : 200, "data":result};
+            res.send(json);
+        }
+        else{
+            console.log(result);
+            var json = {"statusCode" : 201};
+            res.send(json);
+        }
+
+    },query);
+}
+
+function addtoShoppingCart(req,res) {
+
+
+    console.log("In addto shopping cart route");
+    var item = req.param("item");
+    var req_quantity = req.param("req_quantity");
+    console.log(" req_quantity "+req_quantity);
+    console.log("Item");
+    console.log(item);
+    var totalPrice = Number(req_quantity)*Number(item[0].price);
+    console.log("total Price "+ totalPrice);
+
+    console.log("In routes of getshopping cart");
+    var user_id = req.session.user_id;
+    var query1 = "select * from cart where product_id="+item[0].product_id;
+
+    mysql.fetchData(function (err,result) {
+
+        if(err){
+            console.log(err);
+            json = {"statusCode" : 401};
+            res.send(json);
+
+        }
+        else if(result.length>0){
+            console.log(result);
+            console.log("already in cart");
+            json = {"statusCode" : 201};
+            res.send(json);
+
+
+        }
+        else{
+
+            var query = "insert into cart (user_id,product_id,quantity,price) values ("+user_id+","+item[0].product_id+",'"+req_quantity+"','"+totalPrice+"')"
+            console.log("Inserting product to cart");
+            console.log("Query is "+query);
+
+            mysql.fetchData(function (err,result) {
+
+                if(err){
+                    console.log(err);
+                    json = {"statusCode" : 401};
+                    res.send(json);
+                }
+                else{
+                    console.log(result);
+                    var json = {"statusCode" : 200};
+                    res.send(json);
+                }
+
+            },query);
+
+        }
+
+
+    },query1);
 
 
 
+
+
+
+}
+
+
+function getShoppingCart(req, res) {
+
+    var data = {
+        "user_id" : req.session.user_id,
+        "email" : req.session.email,
+        "fname" : req.session.fname,
+        "lld"   : req.session.lld
+    };
+    console.log("get shopping cart routes");
+    ejs.renderFile('./views/shoppingCart.ejs',data, function (err, result) {
+
+        if (err)
+            res.send("An error occured to get shopping cart page page");
+        else
+            console.log('getting shopping cart page');
+        res.end(result);
+
+
+    });
+
+
+}
+
+
+function loadShoppingCart(req,res) {
+
+        console.log("Load shopping cart route");
+        var query = "SELECT C.user_id, C.product_id, C.quantity as rq, P.product_name, P.details, P.price, P.quantity as tq, P.seller_user_id, U.first_name,U.last_name from cart as C, product_details as P, user_details as U where C.user_id="+req.session.user_id+" and C.product_id=P.product_id and P.seller_user_id=U.user_id";
+        console.log("quert "+query);
+        mysql.fetchData(function (err,result) {
+
+            if(err){
+
+                console.log(err);
+                var json = {"statusCode":401};
+                res.send(json);
+            }
+            else if(result.length>0){
+                console.log("cart");
+                console.log(result);
+                var json = {"statusCode": 200, "data" : result};
+                res.send(json);
+
+            }
+            else{
+
+                console.log("empty cart");
+                console.log(result);
+                var json = {"statusCode":201};
+                res.send(json);
+            }
+
+        },query);
+
+
+}
+
+function updateShoppingCart(req,res) {
+
+    var product_id = req.param("product_id");
+    var quantity = req.param("quantity");
+    var user_id = req.session.user_id;
+
+    var query = "update cart set quantity = '"+quantity+"' where product_id="+product_id+" and user_id="+user_id;
+
+    mysql.fetchData(function (err, result) {
+
+        if(err){
+            console.log(err);
+            var json = {"statusCode":401};
+            res.send(json);
+        }
+        else{
+
+            var json= {"statusCode": 200};
+            res.send(json);
+
+        }
+
+    },query);
+
+}
+
+exports.updateShoppingCart = updateShoppingCart;
+exports.loadShoppingCart= loadShoppingCart;
+exports.getShoppingCart = getShoppingCart;
 exports.homepage = homepage;
 exports.getAllItems = getAllItems;
+exports.getProductDetailsPage = getProductDetailsPage;
 exports.getProductDetails = getProductDetails;
+exports.addtoShoppingCart = addtoShoppingCart;

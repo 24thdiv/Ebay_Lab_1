@@ -1,0 +1,81 @@
+.bod{
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    background-color: #fff;
+    box-shadow: 4px 4px 1px #eee;
+    padding: 17px 20px 9px;
+    margin-bottom: 20px;
+}
+
+.ralign {
+    margin-right: 15px!important;
+}
+.fr {
+    float: right;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.tr {
+    text-align: right;
+}
+
+.sumSep {
+    border-top: 1px solid #ccc;
+}
+
+.col_100p {
+    width: 100%;
+}
+
+.btn-ter, a.btn-ter, a.btn-ter:visited {
+    color: #0654ba;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #ddd;
+    text-decoration: none;
+
+}
+
+a:visited {
+    color: #6a29b9;
+    text-decoration: none;
+}
+
+.btn {
+    display: inline-block;
+    zoom: 1;
+    vertical-align: baseline;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 500;
+    text-shadow: 0 1px 0 rgba(0,0,0,.2);
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: 0 3px 0 rgba(0,0,0,.2);
+    -moz-box-shadow: 0 3px 0 rgba(0,0,0,.2);
+    box-shadow: 0 3px 0 #ddd;
+    font-size: 16px;
+    padding: .5em 1.2em;
+    border: 1px solid transparent;
+    margin: 0;
+    overflow: visible;
+}
+
+.btn-prim:hover, a.btn-prim:hover, .btn-prim:focus, a.btn-prim:focus, .btn-prim:active, a.btn-prim:active {
+    background: #00509d;
+
+}
+
+.btn-prim, a.btn-prim, a.btn-prim:visited, .btn-split, a.btn-split, a.btn-split:visited {
+    color: #fff;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    background: #00509d;
+    background: -webkit-gradient(linear, left top, left bottom, from(#0079bc), to(#00509d));
+}

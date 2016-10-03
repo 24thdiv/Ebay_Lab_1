@@ -6,113 +6,212 @@
 </head>
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-messages.js"></script>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <!-- jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Latest compiled JavaScript -->
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+
 <!-- <script type="text/css" src="stylesheets/SignIn.css"></script>-->
 <link rel="stylesheet" href="stylesheets/style.css">
 <link rel="stylesheet" href="stylesheets/include.css">
+<link rel="stylesheet" href="stylesheets/home.css">
 
+<link rel="stylesheet" href="stylesheets/shoppingCart.css">
+<script src="controllers/productController.js"></script>
 
-<body>
+<body ng-app="product" ng-controller="product" ng-init="loadShoppingCart()">
 <% include include.ejs %>
 
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12 col-md-10 col-md-offset-1">
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Quantity</th>
-                    <th class="text-center">Price</th>
-                    <th class="text-center">Total</th>
-                    <th> </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td class="col-sm-8 col-md-6">
-                        <div class="media">
-                            <a class="thumbnail pull-left" href="#"> <img class="media-object" src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png" style="width: 72px; height: 72px;"> </a>
-                            <div class="media-body">
-                                <h4 class="media-heading"><a href="#">Product name</a></h4>
-                                <h5 class="media-heading"> by <a href="#">Brand name</a></h5>
-                                <span>Status: </span><span class="text-success"><strong>In Stock</strong></span>
-                            </div>
-                        </div></td>
-                    <td class="col-sm-1 col-md-1" style="text-align: center">
-                        <input type="email" class="form-control" id="exampleInputEmail1" value="3">
-                    </td>
-                    <td class="col-sm-1 col-md-1 text-center"><strong>$4.87</strong></td>
-                    <td class="col-sm-1 col-md-1 text-center"><strong>$14.61</strong></td>
-                    <td class="col-sm-1 col-md-1">
-                        <button type="button" class="btn btn-danger">
-                            <span class="glyphicon glyphicon-remove"></span> Remove
-                        </button></td>
-                </tr>
-                <tr>
-                    <td class="col-md-6">
-                        <div class="media">
-                            <a class="thumbnail pull-left" href="#"> <img class="media-object" src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png" style="width: 72px; height: 72px;"> </a>
-                            <div class="media-body">
-                                <h4 class="media-heading"><a href="#">Product name</a></h4>
-                                <h5 class="media-heading"> by <a href="#">Brand name</a></h5>
-                                <span>Status: </span><span class="text-warning"><strong>Leaves warehouse in 2 - 3 weeks</strong></span>
-                            </div>
-                        </div></td>
-                    <td class="col-md-1" style="text-align: center">
-                        <input type="email" class="form-control" id="exampleInputEmail1" value="2">
-                    </td>
-                    <td class="col-md-1 text-center"><strong>$4.99</strong></td>
-                    <td class="col-md-1 text-center"><strong>$9.98</strong></td>
-                    <td class="col-md-1">
-                        <button type="button" class="btn btn-danger">
-                            <span class="glyphicon glyphicon-remove"></span> Remove
-                        </button></td>
-                </tr>
-                <tr>
-                    <td>   </td>
-                    <td>   </td>
-                    <td>   </td>
-                    <td><h5>Subtotal</h5></td>
-                    <td class="text-right"><h5><strong>$24.59</strong></h5></td>
-                </tr>
-                <tr>
-                    <td>   </td>
-                    <td>   </td>
-                    <td>   </td>
-                    <td><h5>Estimated shipping</h5></td>
-                    <td class="text-right"><h5><strong>$6.94</strong></h5></td>
-                </tr>
-                <tr>
-                    <td>   </td>
-                    <td>   </td>
-                    <td>   </td>
-                    <td><h3>Total</h3></td>
-                    <td class="text-right"><h3><strong>$31.53</strong></h3></td>
-                </tr>
-                <tr>
-                    <td>   </td>
-                    <td>   </td>
-                    <td>   </td>
-                    <td>
-                        <button type="button" class="btn btn-default">
-                            <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
-                        </button></td>
-                    <td>
-                        <button type="button" class="btn btn-success">
-                            Checkout <span class="glyphicon glyphicon-play"></span>
-                        </button></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+<div class="row">
+<div id="PageTitle">
+
+    <div class="col-sm-6 col-sm-offset-1">
+        <h2 class="mb15 nowrap">Your eBay Shopping Cart</h2>
     </div>
+    <div class="col-md-2">
+        <a href="javascript:;" id="surveyLink" class="fs14" >Send us your comments</a>
+    </div>
+        <div class="clearfix" style="clear:both;"></div>
 </div>
+</div>
+
+<br>
+
+    <div class="container col-md-11 col-md-offset-1" ng-init="total = 0">
+        <div class="left col-md-8" style="margin-right: 10px">
+            <div class="alert alert-danger bod" ng-show="cartempty">
+                 Your Cart is Empty. Add some Items.
+            </div>
+            <div class="row bod" ng-show="cartfull"  >
+                <div class = "panel panel-default" ng-repeat="cart in cartItems">
+                    <div class = "panel-heading" style="background-color: #f2f2f2">Seller <span style="color: #0654ba">{{cart.first_name}} {{cart.last_name}}</span></div>
+
+
+                    <table class="table table-hover" style="background-color: #f8f8f8">
+                        <tbody>
+                        <tr>
+                            <td class="col-md-6">
+                                <div class="media">
+                                    <a class="thumbnail pull-left" href="#"> <img class="media-object" src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png" style="width: 72px; height: 72px;"> </a>
+                                    <div class="media-body">
+                                        <h4 class="media-heading"><a href="#" style="color:#0654ba ">  &nbsp; &nbsp;&nbsp;{{cart.product_name}}</a></h4>
+
+                                        &nbsp;&nbsp;&nbsp;  <span>Description: </span><span class="text-warning"><strong>{{cart.details}}</strong></span>
+                                    </div>
+                                </div></td>
+
+
+                            <td>Quantity: </td>
+                            <td class="col-sm-1 col-md-1" style="text-align: center">
+                                <input type="text" min="0" class="form-control" id="quan" ng-model="quantity" ng-value={{cart.rq}} ng-blur="updateQuantity($index)">
+
+                            </td>
+                            <td class="col-sm-2 col-md-2 text-center"><strong>Price {{cart.price}}</strong></td>
+                            <input type="hidden" ng-init="$parent.total = $parent.total + (cart.price * cart.rq)"/>
+                            <td class="col-sm-2 col-md-2 text-center"><strong ng-model="totaleach">Total: {{cart.total}}</strong></td>
+
+                        </tr>
+
+                        <td class="col-md-6">
+                          </td>
+
+
+                        <td> </td>
+                        <td class="col-sm-1 col-md-1" style="text-align: center">
+
+                        </td>
+                        <td class="col-sm-2 col-md-2 text-center"></td>
+                        <td class="col-sm-2 col-md-2 text-center">Remove</td>
+
+
+                        <tr>
+
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+
+
+            </div>
+
+            <div class="row">
+            <div class="col-md-6 col-md-offset-6 bod" ng-show="cartfull">
+
+
+                <table class="fr ralign cartSummaryTable">
+                    <tbody>
+                    <tr style="height: 30px">
+                        <td width="320px">
+                            <div class="tr">Subtotal:</div>
+                        </td>
+                        <td width="90px" style="margin-left: 10px">
+                            <div class="nowrap tr normal">${{grandTotal}}</div>
+                        </td>
+                    </tr>
+                    <tr style="height: 30px">
+                        <td width="320px">
+                            <div class="tr">
+                                <span>Shipping to charge:</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="tr nowrap normal">$0.0</div>
+                        </td>
+                    </tr>
+                    <tr style="height: 30px">
+                        <td width="320px">
+                            <div class="tr">Sales Tax: </div>
+                        </td>
+                        <td>
+                            <div class="tr nowrap normal">$0.0</div>
+                        </td>
+                    </tr>
+                    <tr style="height: 30px">
+                        <td colspan="2">
+                            <div class="fr col_100p sumSep mt5 lh0 clearfix">
+
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 30px">
+                        <td width="320px" class="">
+                            <div class="tr fw-b fsz18px blackClr" style="font-size: 20px"><b>Total: </b></div>
+                        </td>
+                        <td class="nowrap ">
+                            <div class="tr fw-b fsz18px blackClr normal" id="asyncTotal" style="font-size: 20px"><b>${{grandTotal}}</b></div>
+                        </td>
+                    </tr>
+                    <tr style="height: 30px">
+                        <td colspan="2">
+                            <div class="fr col_100p sumSep mt5 lh0 clearfix">
+
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div class="fr col_100p tr mb10 mt10 clearfix">
+                    <div class="fr ralign" ng-if="grandTotal>0">
+                        <a id="ptcBtnBottom" class="btn btn-prim" href="http://cart.payments.ebay.com/sc/ptc?_trksid=p2046448.m2466" target="" role="button">Proceed to checkout</a>
+                    </div>
+                    <div class="fr ralign">
+                        <a id="contShoppingBtn" class="btn btn-ter" href="http://www.ebay.com/sch/Rolex-Wristwatches/31387/bn_2989578/i.html" target="">Continue shopping</a>
+                    </div>
+                </div>
+
+            </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <h2>Your saved items</h2>
+                </div>
+                <div class="col-md-12 bod">
+                    <div class="c-std"><p></p>
+                        <div class="fw-b fs16 pt10">
+                           <b> Did you know that you can save items from your cart to buy later?</b>
+                        </div>
+                        <div class="pt10 pb20 lh22">
+                            Just click "Save for later", and it'll be moved here. Remember, these items can still be purchased by other eBay members, so don't wait too long to buy.</div><p></p></div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <div class="right col-md-2">
+            <div class="row bod">
+
+                <h4><b>Cart Summary<b></b></b></h4>
+                <hr class="divider" >
+                <h4><b>Total: {{grandTotal}}</b></h4>
+
+                <button ng-if="grandTotal>0"class="btn btn-primary" value="Proceed to checkout"><b>Proceed to checkout</b></button>
+                <div class="eBPimg"><img src="http://ir.ebaystatic.com/pictures/aw/pics/shoppingcart/eMBG_stacked.gif" width="150" height="35" alt="Learn more about eBay Money Back Guarantee"></div>
+
+                <div class="clr666 mt5 mb20 fs12 lh16 fw-n" style="font-size: 12px">
+                    Covers your purchase price plus original shipping on virtually all items.<br>
+                    Get the item you ordered or get your money back.&nbsp;
+
+                </div>
+
+
+            </div>
+        </div>
+
+
+    </div>
 
 
 </body>

@@ -3,22 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Ebay Product</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- jQuery library -->
+
+    <!-- Latest compiled JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-messages.js"></script>
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <!-- Latest compiled JavaScript -->
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!-- <script type="text/css" src="stylesheets/SignIn.css"></script>-->
+   <!-- <script type="text/css" src="stylesheets/SignIn.css"></script>-->
     <link rel="stylesheet" href="../stylesheets/style.css">
     <link rel="stylesheet" href="../stylesheets/include.css">
     <link rel="stylesheet" href="../stylesheets/productPage.css">
     <script src="../controllers/productController.js"></script>
 
 </head>
+
+<script>
+
+    window.product_id =<%=product_id%>;
+
+</script>
+
+
 <body ng-app="product" ng-controller="product" ng-init="productDetails()">
 <% include include.ejs %>
 <div class="container-fluid-1">
@@ -40,18 +49,25 @@
 
 
                    <div class="col-md-5" style="background-color: #f8f8f8">
-                       <div class="product-title"><b>Corsair GS600 600 Watt PSU</b></div>
-                       <div class="product-desc">The Corsair Gaming Series also add the new feature that inclue aps and games into game GS600 is the ideal price/performance choice for mid-spec gaming PC</div>
+                       <div class="product-title"><b>{{itemDetail[0].product_name}}</b></div>
+                       <div class="product-desc">{{itemDetail[0].details}}</div>
                        <div class="product-rating"><i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star-o"></i> </div>
                        <hr>
-                       <div class="product-price">Price $1234.00</div>
+                       <div class="product-price">Price ${{itemDetail[0].price}}</div>
                        <div class="product-stock">In Stock</div>
                        <hr>
+                       <div>Available Quantity {{itemDetail[0].quantity}}</div>
+                       <br>
+                       <input type="hidden" ng-model="quantity" >
+                       <input type="hidden" ng-model="price">
+                       <input type="hidden" ng-model="item">
+
                        <div class="form-group">
                            <label class="col-md-2 " for="name">Quantity</label>
                            <div class="col-md-2">
-                               <input type="text" class="form-control">
+                               <input type="text" class="form-control" ng-model="req_quantity" value="1">
                            </div>
+                           <p style="color:red" ng-show="quantity_error">Please provide valid quantity</p>
                        </div>
                         <div class="form-group">
                             <label></label>
@@ -60,16 +76,16 @@
                        <br>
                        <div class="form-group">
                            <div class="btn-group">
-                               <button type="button" class="btn btn-primary">
+                               <a type="button" class="btn btn-primary" ng-click="addtoShoppingCart()" href>
                                    <b>Add to Cart</b>
-                               </button>
+                               </a>
                            </div>
                        </div>
 
 
                        <div class="form-group">
                            <div class="btn-group cart">
-                               <button type="button" class="btn btn-primary">
+                               <button type="button" class="btn btn-primary" ng-click="buyItem()">
                                    <b>Buy it Now</b>
                                </button>
                            </div>
@@ -113,8 +129,7 @@
                     <div class="tab-pane fade in active" id="service-one">
 
                         <section class="container product-info">
-                            The Corsair Gaming Series GS600 power supply is the ideal price-performance solution for building or upgrading a Gaming PC. A single +12V rail provides up to 48A of reliable, continuous power for multi-core gaming PCs with multiple graphics cards. The ultra-quiet, dual ball-bearing fan automatically adjusts its speed according to temperature, so it will never intrude on your music and games. Blue LEDs bathe the transparent fan blades in a cool glow. Not feeling blue? You can turn off the lighting with the press of a button.
-
+                          {{itemDetail[0].details}}
                         </section>
 
                     </div>

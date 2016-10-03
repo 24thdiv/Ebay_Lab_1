@@ -58,7 +58,13 @@ app.post('/getSellItems', sell.getSellItems);
 
 app.get('/', home.homepage);
 app.post('/getAllItems', home.getAllItems);
-app.get('/product_details', home.getProductDetails);
+app.get('/product_details', home.getProductDetailsPage);
+app.post('/getProductDetails', home.getProductDetails);
+app.post('/addtoShoppingCart', home.addtoShoppingCart);
+app.get('/getShoppingCart', home.getShoppingCart);
+app.get('/loadShoppingCart', home.loadShoppingCart);
+app.post('/updateShoppingCart', home.updateShoppingCart);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
