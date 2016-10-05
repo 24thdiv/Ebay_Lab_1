@@ -75,26 +75,15 @@ product.controller('product', function($scope, $http) {
         });
     }
 
-    $scope.buyItem = function () {
-
-        var quantity =  $scope.quantity;
-        var price = $scope.price;
-        console.log("Scope is :: ");
-        console.log($scope);
-        console.log("scope ends");
-        console.log("Quantity :: " + $scope.quantity);
-        console.log("Quantity "+quantity);
-
-    }
 
     $scope.addtoShoppingCart = function () {
 
         $scope.quantity_error = false;
         var product_id =window.product_id;
-        var quantity = $scope.quantity;
+        var quantity = Number($scope.quantity);
         var price = $scope.price;
         var item = $scope.item;
-        var req_quantity = $scope.req_quantity;
+        var req_quantity = Number($scope.req_quantity);
         console.log("req_quantity "+ req_quantity);
         console.log("get shopping cart controller")
         if(req_quantity>quantity || req_quantity==undefined || req_quantity=="0") {
@@ -138,6 +127,44 @@ product.controller('product', function($scope, $http) {
 
         }
     }
+
+    $scope.buyItem = function () {
+
+        $scope.quantity_error = false;
+        var product_id =window.product_id;
+        var quantity = Number($scope.quantity);
+        var price = $scope.price;
+        var item = $scope.item;
+        var req_quantity = Number($scope.req_quantity);
+        console.log("req_quantity "+ req_quantity);
+        console.log("availble quantity "+ quantity);
+        console.log("buy item get shopping cart controller")
+        if(req_quantity>quantity || req_quantity==undefined || req_quantity=="0") {
+            $scope.quantity_error = true;
+            return;
+        }
+        else{
+
+
+
+
+            console.log("in http call shopping cart controller");
+            console.log("product_id" + product_id);
+            window.location.href='/getpaymentPage?buy=yes&itemID='+item[0].product_id+'&req='+req_quantity;
+
+
+
+        }
+
+    }
+
+
+    $scope.removeitem = function (index) {
+
+        
+
+    }
+
 
 
     $scope.loadShoppingCart = function () {
@@ -193,13 +220,16 @@ product.controller('product', function($scope, $http) {
         $scope.invalid_quantity = false;
         console.log("In update controller");
         console.log("Index "+index);
-        var quantity = this.quantity;
+        var quantity = Number(this.quantity);
         console.log(quantity);
         var validate = true;
-        if(quantity>$scope.cartItems[index].tq){
+        if(quantity>Number($scope.cartItems[index].tq)){
             var name = $scope.cartItems[index].product_name;
             alert("Product "+name+" does not have enough quantity ");
             validate = false;
+
+           document.getElementById("quantity-"+index).value = $scope.cartItems[index].rq;
+            return;
         }
 
 
@@ -254,10 +284,84 @@ product.controller('product', function($scope, $http) {
         }
         else{
 
-            alert("Please Enter valid Quantity");
+            console.log("INVALID");
+            document.getElementById("quantity-"+index).value = $scope.cartItems[index].rq;
+           // alert("Please Enter valid Quantity");
 
         }
     }
+
+
+    $scope.loadPaymentPage = function () {
+
+        var buy = window.buy;
+        console.log("Buy "+buy);
+        if(buy=='yes') {
+            var product_id = window.product_id;
+            var req_quantity = window.req_quantity;
+            console.log("product id " + product_id);
+            console.log("req_ quantity " + req_quantity);
+            var data = {
+
+                "product_id": product_id,
+                "req_quantity" : req_quantity,
+                "buy" : 'yes'
+            };
+        }
+        else{
+
+            var data = {
+
+                "buy" : 'no'
+            };
+        }
+
+            $http({
+                method: "POST",
+                url: '/loadPaymentPage',
+                data: data
+
+            }).success(function (data) {
+
+                if (data.statusCode == 401) {
+
+                    console.log(data);
+                    console.log("status code 401");
+                    
+
+                }
+                else {
+                    console.log('----------------------------------------------------------')
+                    console.log(data.product);
+                    console.log('----------------------------------------------------------')
+                    console.log(data.user);
+                    console.log('----------------------------------------------------------')
+                    $scope.product = data.product;
+                    $scope.user = data.user;
+
+                    var grandtotal = 0;
+
+
+                        for(var i=0;i<data.product.length;i++){
+                            grandtotal = grandtotal + data.product[i].total;
+                            console.log("GrandTotla "+grandtotal);
+                        }
+
+                    $scope.grandtotal = grandtotal;
+                    //$scope.quantity = $scope.product[0].req_quantity;
+
+                }
+
+            }).error(function (error) {
+                console.log(error);
+            });
+
+
+
+
+
+    }
+
 
 
 });

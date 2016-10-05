@@ -59,17 +59,17 @@
                             <td class="col-md-6">
                                 <div class="media">
                                     <a class="thumbnail pull-left" href="#"> <img class="media-object" src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png" style="width: 72px; height: 72px;"> </a>
-                                    <div class="media-body">
-                                        <h4 class="media-heading"><a href="#" style="color:#0654ba ">  &nbsp; &nbsp;&nbsp;{{cart.product_name}}</a></h4>
+                                    <div class="media-body" align="center">
+                                        <h4 style="color:#0654ba ">  &nbsp; &nbsp;&nbsp;{{cart.product_name}}</h4>
 
-                                        &nbsp;&nbsp;&nbsp;  <span>Description: </span><span class="text-warning"><strong>{{cart.details}}</strong></span>
+                                        &nbsp;&nbsp;&nbsp;  <span><b>Description: </b></span><span style="text-align: right">{{cart.details}}</span>
                                     </div>
                                 </div></td>
 
 
                             <td>Quantity: </td>
                             <td class="col-sm-1 col-md-1" style="text-align: center">
-                                <input type="text" min="0" class="form-control" id="quan" ng-model="quantity" ng-value={{cart.rq}} ng-blur="updateQuantity($index)">
+                                <input type="text" min="0" class="form-control" id="{{'quantity-'+$index}}" ng-model=quantity ng-value={{cart.rq}} ng-blur="updateQuantity($index)">
 
                             </td>
                             <td class="col-sm-2 col-md-2 text-center"><strong>Price {{cart.price}}</strong></td>
@@ -87,7 +87,7 @@
 
                         </td>
                         <td class="col-sm-2 col-md-2 text-center"></td>
-                        <td class="col-sm-2 col-md-2 text-center">Remove</td>
+                        <td class="col-sm-2 col-md-2 text-center"><button ng-click="removeitem($index)">Remove</button></td>
 
 
                         <tr>
@@ -162,10 +162,10 @@
 
                 <div class="fr col_100p tr mb10 mt10 clearfix">
                     <div class="fr ralign" ng-if="grandTotal>0">
-                        <a id="ptcBtnBottom" class="btn btn-prim" href="http://cart.payments.ebay.com/sc/ptc?_trksid=p2046448.m2466" target="" role="button">Proceed to checkout</a>
+                        <a id="ptcBtnBottom" class="btn btn-prim" href="/getpaymentPage?buy=no" target="" role="button">Proceed to checkout</a>
                     </div>
                     <div class="fr ralign">
-                        <a id="contShoppingBtn" class="btn btn-ter" href="http://www.ebay.com/sch/Rolex-Wristwatches/31387/bn_2989578/i.html" target="">Continue shopping</a>
+                        <a id="contShoppingBtn" class="btn btn-ter" href="/" target="">Continue shopping</a>
                     </div>
                 </div>
 
@@ -197,7 +197,7 @@
                 <hr class="divider" >
                 <h4><b>Total: {{grandTotal}}</b></h4>
 
-                <button ng-if="grandTotal>0"class="btn btn-primary" value="Proceed to checkout"><b>Proceed to checkout</b></button>
+               <a href="/getpaymentPage?buy=no"> <button ng-if="grandTotal>0"class="btn btn-primary" value="Proceed to checkout"><b>Proceed to checkout</b></button></a>
                 <div class="eBPimg"><img src="http://ir.ebaystatic.com/pictures/aw/pics/shoppingcart/eMBG_stacked.gif" width="150" height="35" alt="Learn more about eBay Money Back Guarantee"></div>
 
                 <div class="clr666 mt5 mb20 fs12 lh16 fw-n" style="font-size: 12px">

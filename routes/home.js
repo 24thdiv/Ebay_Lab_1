@@ -35,10 +35,10 @@ function getAllItems(req,res) {
     console.log("user_id "+user_id);
     if(user_id==undefined)
     {
-        var query = "select * from product_details where isAuction='No' and quantity>0";
+        var query = "select * from product_details where quantity>0";
     }
     else{
-        var query = "select * from product_details where isAuction='No' and quantity>0 and seller_user_id!="+user_id;
+        var query = "select * from product_details where quantity>0 and seller_user_id!="+user_id;
     }
 
 
@@ -113,10 +113,26 @@ function getProductDetails(req,res) {
         }
         else if(result.length>0){
 
-            console.log("Product details");
-            console.log(result);
-            var json = {"statusCode" : 200, "data":result};
-            res.send(json);
+            var query1 = "select first_name,last_name from user_details where user_id="+result[0].seller_user_id;
+            mysql.fetchData(function (err,result1) {
+
+                if(err){
+                    console.log(err);
+                    json = {"statusCode" : 401};
+                    res.send(json);
+                }
+                else{
+                    console.log("Product details");
+                    console.log(result1);
+                    result[0].first_name = result1[0].first_name;
+                    result[0].last_name = result1[0].last_name;
+                    var json = {"statusCode" : 200, "data":result};
+                    res.send(json);
+
+                }
+
+            },query1);
+
         }
         else{
             console.log(result);

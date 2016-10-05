@@ -9,6 +9,7 @@ var home = require('./routes/home');
 var signIn = require('./routes/signIn');
 var account = require('./routes/account');
 var sell = require('./routes/sell');
+var payment = require('./routes/payment');
 var app = express();
 
 
@@ -65,6 +66,8 @@ app.get('/getShoppingCart', home.getShoppingCart);
 app.get('/loadShoppingCart', home.loadShoppingCart);
 app.post('/updateShoppingCart', home.updateShoppingCart);
 
+app.get('/getpaymentPage', payment.getpaymentPage);
+app.post('/loadPaymentPage', payment.loadPaymentPage);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
