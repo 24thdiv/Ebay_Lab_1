@@ -292,6 +292,38 @@ function updateShoppingCart(req,res) {
 
 }
 
+function deleteItemfromcart(req,res) {
+
+    console.log("in delete item routs");
+    var product_id = req.param("product_id");
+    console.log("Delted item id "+product_id);
+
+    var query = "delete from cart where product_id="+product_id+" and user_id="+req.session.user_id;
+
+    mysql.fetchData(function (err,result) {
+
+        if(err){
+            console.log(err);
+            var json = {"statusCode":401};
+            res.send(json);
+
+        }
+        else{
+
+            console.log(result);
+            var json = {"statusCode":200};
+            res.send(json);
+
+        }
+
+    },query);
+
+
+}
+
+
+
+exports.deleteItemfromcart= deleteItemfromcart;
 exports.updateShoppingCart = updateShoppingCart;
 exports.loadShoppingCart= loadShoppingCart;
 exports.getShoppingCart = getShoppingCart;

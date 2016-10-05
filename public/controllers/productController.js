@@ -161,7 +161,45 @@ product.controller('product', function($scope, $http) {
 
     $scope.removeitem = function (index) {
 
-        
+
+        var product_id = $scope.cartItems[index].product_id;
+
+        $http({
+            method: "DELETE",
+            url: '/deleteItemfromcart',
+            params:{
+
+                "product_id":product_id
+            }
+
+        }).success(function (data) {
+
+            if (data.statusCode == 401) {
+
+                alert("Plase Try after some time.");
+
+            }
+            else{
+                console.log("data");
+                
+                var grandtotal = 0;
+                $scope.cartItems.splice(index, 1);
+                for(i=0;i<$scope.cartItems.length;i++){
+
+
+                    grandtotal = grandtotal + $scope.cartItems[i].total;
+                }
+                $scope.grandTotal = grandtotal;
+
+
+            }
+
+        }).error(function (error) {
+            console.log(error);
+        });
+
+
+
 
     }
 

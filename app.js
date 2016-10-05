@@ -65,6 +65,7 @@ app.post('/addtoShoppingCart', home.addtoShoppingCart);
 app.get('/getShoppingCart', home.getShoppingCart);
 app.get('/loadShoppingCart', home.loadShoppingCart);
 app.post('/updateShoppingCart', home.updateShoppingCart);
+app.delete('/deleteItemfromcart', home.deleteItemfromcart);
 
 app.get('/getpaymentPage', payment.getpaymentPage);
 app.post('/loadPaymentPage', payment.loadPaymentPage);
