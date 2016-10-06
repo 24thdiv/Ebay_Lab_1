@@ -53,37 +53,56 @@
                        <div class="product-desc">{{itemDetail[0].details}}</div>
                        <div class="product-rating"><i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star-o"></i> </div>
                        <hr>
-                       <div class="product-price">Price ${{itemDetail[0].price}}</div>
+                       <div ng-if="itemDetail[0].isAuction==='No'" class="product-price">Price ${{itemDetail[0].price}}</div>
+                       <div ng-if="itemDetail[0].isAuction==='Yes'" class="product-price">Current Bid Price ${{itemDetail[0].bid_price || 'New'}} </div>
                        <div class="product-stock">In Stock</div>
                        <hr>
-                       <div>Available Quantity {{itemDetail[0].quantity}}</div>
+                       <div ng-if="itemDetail[0].isAuction==='No'">Available Quantity {{itemDetail[0].quantity}}</div>
                        <br>
                        <input type="hidden" ng-model="quantity" >
                        <input type="hidden" ng-model="price">
                        <input type="hidden" ng-model="item">
 
-                       <div class="form-group">
+                       <div ng-if="itemDetail[0].isAuction==='No'" class="form-group">
                            <label class="col-md-2 " for="name">Quantity</label>
                            <div class="col-md-2">
-                               <input type="text" class="form-control" ng-model="req_quantity" value="1">
+                               <input type="text" class="form-control" id="req_quantity" ng-model="req_quantity" value="1">
                            </div>
-                           <p style="color:red" ng-show="quantity_error">Please provide valid quantity</p>
+
                        </div>
-                        <div class="form-group">
+
+                       <div ng-if="itemDetail[0].isAuction==='Yes'" class="form-group">
+
+                           <div class="col-md-4">
+                               <input type="text" class="form-control" id="bid" ng-model="new_bidprice" placeholder="Bid Amount">
+                           </div>
+
+                           <div class="btn-group">
+                               <a type="button" class="btn btn-primary" ng-click="makeBid()" href>
+                                   <b>Place Bid</b>
+                               </a>
+                           </div>
+                       </div>
+                       <p style="color:red" ng-show="bid_error">Please provide valid bid amount</p>
+                       <p ng-show="bid_done" class="alert alert-success">Your have successfully made a Bid.</p>
+
+                       <div class="form-group">
                             <label></label>
                         </div>
                        <br>
                        <br>
-                       <div class="form-group">
+                       <div ng-if="itemDetail[0].isAuction==='No'" class="form-group">
                            <div class="btn-group">
                                <a type="button" class="btn btn-primary" ng-click="addtoShoppingCart()" href>
                                    <b>Add to Cart</b>
                                </a>
+
                            </div>
+                           <span style="color: red" ng-show="already">  Already in Cart</span>
                        </div>
 
 
-                       <div class="form-group">
+                       <div class="form-group" ng-if="itemDetail[0].isAuction==='No'">
                            <div class="btn-group cart">
                                <button type="button" class="btn btn-primary" ng-click="buyItem()">
                                    <b>Buy it Now</b>

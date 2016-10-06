@@ -157,20 +157,20 @@ function addtoShoppingCart(req,res) {
 
     console.log("In routes of getshopping cart");
     var user_id = req.session.user_id;
-    var query1 = "select * from cart where product_id="+item[0].product_id;
+    var query1 = "select * from cart where product_id="+item[0].product_id+" and user_id="+req.session.user_id;
 
     mysql.fetchData(function (err,result) {
 
         if(err){
             console.log(err);
-            json = {"statusCode" : 401};
+            var json = {"statusCode" : 401};
             res.send(json);
 
         }
         else if(result.length>0){
             console.log(result);
             console.log("already in cart");
-            json = {"statusCode" : 201};
+            var  json = {"statusCode" : 201};
             res.send(json);
 
 
@@ -181,15 +181,15 @@ function addtoShoppingCart(req,res) {
             console.log("Inserting product to cart");
             console.log("Query is "+query);
 
-            mysql.fetchData(function (err,result) {
+            mysql.fetchData(function (err,result1) {
 
                 if(err){
                     console.log(err);
-                    json = {"statusCode" : 401};
+                    var json = {"statusCode" : 401};
                     res.send(json);
                 }
                 else{
-                    console.log(result);
+                    console.log(result1);
                     var json = {"statusCode" : 200};
                     res.send(json);
                 }
@@ -321,8 +321,38 @@ function deleteItemfromcart(req,res) {
 
 }
 
+function makeBid(req,res) {
+
+    var product_id = req.param("product_id");
+    var bid = req.param("bid");
+    console.log("Product_id "+product_id);
+    console.log("new bid "+bid);
+
+    var query = "UPDATE product_details SET bid_user_id="+req.session.user_id+", bid_price="+bid+" WHERE product_id="+product_id;
+    console.log("query is "+query);
+
+    mysql.fetchData(function (err,result) {
+
+        if(err){
+
+            console.log(err);
+            var json={"statusCode": 401};
+            res.send(json);
+
+        }else{
+
+            var  json={"statusCode":200};
+            res.send(json);
+
+        }
+
+    },query);
 
 
+}
+
+
+exports.makeBid = makeBid
 exports.deleteItemfromcart= deleteItemfromcart;
 exports.updateShoppingCart = updateShoppingCart;
 exports.loadShoppingCart= loadShoppingCart;

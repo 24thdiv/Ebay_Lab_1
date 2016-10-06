@@ -18,12 +18,20 @@ mySell.controller('mySellList', function($scope, $http){
 
         var pro_name = $scope.pro_name;
         var pro_desc = $scope.pro_desc;
-        var quantity = $scope.quantity;
+        console.log($scope);
         var price = $scope.price;
         var isAuction = $scope.isAuction;
         var check = true;
         console.log("Is Auction is ");
         console.log(isAuction);
+        var quantity;
+        if(isAuction=='Yes')
+            quantity='1';
+        else
+            quantity = document.getElementById("qua").value;
+
+        console.log("Quantity "+quantity);
+
 
         if(pro_name==undefined){
             check = false;

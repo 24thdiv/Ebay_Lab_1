@@ -7,6 +7,9 @@ var product = angular.module('product', ['ngMessages']);
 
 product.controller('product', function($scope, $http) {
 
+
+
+
     $scope.getAllItems = function () {
 
         $http({
@@ -37,6 +40,7 @@ product.controller('product', function($scope, $http) {
     
     $scope.productDetails = function () {
 
+
         var id = window.product_id;
         console.log("Product ID is: "+id);
 
@@ -63,6 +67,9 @@ product.controller('product', function($scope, $http) {
                 console.log(data.data);
                // console.log("Quantity "+$scope.quantity);
                 $scope.itemDetail = data.data;
+                console.log("-------itemDetails-----------------------------");
+                console.log($scope.itemDetail);
+                console.log($scope.itemDetail[0].isAuction);
                 $scope.item = data.data;
                 var items = data.data
                 $scope.quantity = items[0].quantity;
@@ -79,11 +86,12 @@ product.controller('product', function($scope, $http) {
     $scope.addtoShoppingCart = function () {
 
         $scope.quantity_error = false;
+        $scope.already = false;
         var product_id =window.product_id;
         var quantity = Number($scope.quantity);
         var price = $scope.price;
         var item = $scope.item;
-        var req_quantity = Number($scope.req_quantity);
+        var req_quantity = Number(document.getElementById("req_quantity").value);
         console.log("req_quantity "+ req_quantity);
         console.log("get shopping cart controller")
         if(req_quantity>quantity || req_quantity==undefined || req_quantity=="0") {
@@ -109,12 +117,17 @@ product.controller('product', function($scope, $http) {
             }).success(function (data) {
 
                 if (data.statusCode == 401) {
-
+                    console.log("status code ="+data.statusCode);
                     alert("Plase Try after some time.");
 
-                }
-                else {
+                }else if(data.statusCode==201){
+                    console.log("status code ="+data.statusCode);
+                    $scope.already = true;
 
+                }
+
+                else {
+                    console.log("status code ="+data.statusCode);
                     console.log("after getting page in success");
                     window.location.href = '/getShoppingCart';
 
@@ -127,6 +140,60 @@ product.controller('product', function($scope, $http) {
 
         }
     }
+
+
+    $scope.makeBid = function () {
+
+        $scope.bid_done = false;
+        $scope.bid_error = false;
+        var product_id =window.product_id;
+     //   var new_bid_price = $scope.new_bidprice;
+       var new_bid_price = document.getElementById("bid").value;
+        var current_price = $scope.itemDetail[0].bid_price;
+        console.log("new Bid price "+new_bid_price);
+        console.log("Current bid "+current_price);
+        console.log("Product id "+product_id);
+        if(new_bid_price<=current_price || isNaN(new_bid_price)){
+            $scope.bid_error = true;
+            return;
+        }
+
+        $http({
+            method: "POST",
+            url: '/makeBid',
+            data:{
+
+                "product_id":product_id,
+                "bid" : new_bid_price
+            }
+
+        }).success(function (data) {
+
+            if (data.statusCode == 401) {
+
+                alert("Plase Try after some time.");
+
+            }
+            else{
+
+               // $scope.new_bidprice = new_bid_price;
+                $scope.bid_done = true;
+
+                $scope.itemDetail[0].bid_price = new_bid_price;
+
+            }
+
+        }).error(function (error) {
+            console.log(error);
+        });
+
+
+
+
+
+
+    }
+
 
     $scope.buyItem = function () {
 
@@ -181,7 +248,7 @@ product.controller('product', function($scope, $http) {
             }
             else{
                 console.log("data");
-                
+
                 var grandtotal = 0;
                 $scope.cartItems.splice(index, 1);
                 for(i=0;i<$scope.cartItems.length;i++){
@@ -209,6 +276,7 @@ product.controller('product', function($scope, $http) {
 
         console.log("Load shopping cart controller");
         $scope.cartempty = false;
+        $scope.already = false;
 
         $http({
             method: "GET",
