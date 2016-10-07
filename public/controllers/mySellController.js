@@ -148,6 +148,32 @@ mySell.controller('mySellList', function($scope, $http){
 
     }
 
+    $scope.searchItems = function () {
+
+
+        var search = $scope.searchstring;
+        console.log("Serach string is "+search);
+
+        if(search==undefined)
+            console.log("undefined");
+        else if(search=='')
+            console.log("space");
+        else{
+
+            if(search.match(/[^\w\s]/)){
+                console.log("invalid");
+            }
+            else{
+                console.log("valid");
+
+                window.location.href='/getsearchpage?search='+search
+
+            }
+        }
+
+
+    }
+
     function init() {
 
         $scope.name_invalid = false;
@@ -160,6 +186,11 @@ mySell.controller('mySellList', function($scope, $http){
         $scope.success_model = false;
         $scope.fail_model = false;
     }
+
+
+
+
+
 
 
 });

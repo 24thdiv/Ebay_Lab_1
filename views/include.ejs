@@ -74,7 +74,7 @@
 
             <td width="49%">
 
-                <input type="text" name="searchvalue" class="form-control" placeholder="Search..." style="height: 50px " >
+                <input type="text" name="searchvalue" class="form-control" ng-model="searchstring" placeholder="Search..." style="height: 50px " >
 
             </td>
             <td width="1%">
@@ -82,7 +82,7 @@
             </td>
             <td width="30%">
                 <%if(fname){%>
-                <input type="button" name="searchbutton" class="btn btn-primary" value="Search" style="height: 50px;width: 150px"  >
+                <button name="searchbutton" class="btn btn-primary" value="Search" style="height: 50px;width: 150px" ng-click="searchItems()" >Search</button>
                 <%}else{%>
                 <input type="button" name="searchbutton" class="btn btn-primary" value="Search" style="height: 50px;width: 150px"  >
                 <%}%>

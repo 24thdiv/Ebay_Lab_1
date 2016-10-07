@@ -21,21 +21,24 @@
     <link rel="stylesheet" href="stylesheets/home.css">
     <script src="controllers/productController.js"></script>
 
+    <script>
 
-<script>
+        $(document).ready(function() {
+            $('#list').click(function(event){event.preventDefault();$('#products .item').addClass('list-group-item');});
+            $('#grid').click(function(event){event.preventDefault();$('#products .item').removeClass('list-group-item');$('#products .item').addClass('grid-group-item');});
+        });
 
-    $(document).ready(function() {
-        $('#list').click(function(event){event.preventDefault();$('#products .item').addClass('list-group-item');});
-        $('#grid').click(function(event){event.preventDefault();$('#products .item').removeClass('list-group-item');$('#products .item').addClass('grid-group-item');});
-    });
-</script>
+    window.search = '<%=search%>';
+
+    </script>
+
 
 
 </head>
 
 
 
-<body ng-app="product" ng-controller="product" ng-init="getAllItems()">
+<body ng-app="product" ng-controller="product" ng-init="loadsearchItems()">
 <% include include.ejs %>
 
 <div class="container">
@@ -47,20 +50,24 @@
                         class="glyphicon glyphicon-th"></span>Grid</a>
         </div>
     </div>
+    <div>
+        <div ng-show="got"><h4>Search Result for: {{search}}</h4></div>
+        <div ng-show="ngot"><h4 style="color:red;">No Item found</h4></div>
+    </div>
     <div id="products" class="row list-group">
         <div class="item  col-xs-4 col-lg-4" ng-repeat = "item in allItems">
             <div class="thumbnail">
-               <a href="/product_details/?id={{item.product_id}}"> <img class="group list-group-image" src="http://placehold.it/400x250/000/fff" alt="" /></a>
+                <a href="/product_details/?id={{item.product_id}}"> <img class="group list-group-image" src="http://placehold.it/400x250/000/fff" alt="" /></a>
                 <div class="caption">
                     <b><h4 class="group inner list-group-item-heading">
-                        {{item.product_name}}</h4></b>
+                            {{item.product_name}}</h4></b>
                     <p class="group inner list-group-item-text">
-                    {{item.details}}
+                        {{item.details}}
                     </p>
                     <div class="row">
                         <div class="col-xs-12 col-md-6">
                             <p class="lead">
-                               Price: ${{item.price}}</p>
+                                Price: ${{item.price}}</p>
                         </div>
                         <div class="col-xs-12 col-md-6" ng-if="item.isAuction=='Yes'">
                             <span class="glyphicon glyphicon-bullhorn"></span><span class="group inner list-group-item-text">On Auction</span>

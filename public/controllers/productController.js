@@ -461,13 +461,87 @@ product.controller('product', function($scope, $http) {
             }).error(function (error) {
                 console.log(error);
             });
+    }
 
+
+    $scope.searchItems = function () {
+
+
+        var search = $scope.searchstring;
+        console.log("Serach string is "+search);
+
+        if(search==undefined)
+          console.log("undefined");
+        else if(search=='')
+            console.log("space");
+       else{
+
+                if(search.match(/[^\w\s]/)){
+                    console.log("invalid");
+                }
+            else{
+                    console.log("valid");
+
+                    window.location.href='/getsearchpage?search='+search
+
+                }
+        }
+
+
+    }
+
+
+    $scope.loadsearchItems = function () {
+
+
+        $scope.got = false;
+        $scope.ngot =false;
+
+        var search  = window.search;
+        $scope.search = search;
+        console.log("Search result is "+search);
+
+        $http({
+            method: "POST",
+            url: '/loadsearchpage',
+            data: {
+
+                "search":search
+            }
+
+        }).success(function (data) {
+
+            if (data.statusCode == 401) {
+
+                console.log(data);
+
+                console.log("status code 401");
+
+
+            }
+            else if(data.statusCode==201) {
+
+                console.log("No result found");
+                $scope.ngot=true;
+                $scope.got=false;
+
+            }
+            else{
+
+                $scope.allItems = data.data;
+                $scope.got = true;
+                $scope.ngot = false;
+
+            }
+
+        }).error(function (error) {
+            console.log(error);
+        });
 
 
 
 
     }
-
 
 
 });

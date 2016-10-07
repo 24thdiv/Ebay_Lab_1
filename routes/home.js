@@ -352,6 +352,74 @@ function makeBid(req,res) {
 }
 
 
+function getsearchpage(req,res) {
+
+    var search = req.param("search");
+    console.log("Search is "+ search);
+
+    var data = {
+        "user_id" : req.session.user_id,
+        "email" : req.session.email,
+        "fname" : req.session.fname,
+        "lld"   : req.session.lld,
+        "search": search
+    };
+    console.log("get search page routes");
+    ejs.renderFile('./views/searchresult.ejs',data, function (err, result) {
+
+        if (err)
+            res.send("An error occured to get search page");
+        else
+            console.log('getting search page');
+        res.end(result);
+
+
+    });
+
+
+}
+
+
+function loadsearchpage(req,res) {
+
+    console.log("in load search routes");
+    var search = req.param("search");
+    console.log("search is"+search);
+
+    var query ="select * from product_details where quantity>0 and seller_user_id!="+req.session.user_id+" and product_name like '%"+search+"%'";
+    console.log("query is "+query);
+
+    mysql.fetchData(function (err,result) {
+
+        if(err){
+
+            console.log(err);
+            var json = {"statusCode":401};
+            res.send(json);
+        }
+        else if(result.length>0){
+
+            console.log("result");
+            console.log(result);
+            var json={"statusCode":200, "data":result};
+            res.send(json);
+        }
+        else{
+
+            console.log("result is empty");
+            console.log(result);
+            var json={"statusCode":201};
+            res.send(json);
+
+        }
+
+    },query);
+
+}
+
+
+exports.loadsearchpage = loadsearchpage;
+exports.getsearchpage = getsearchpage;
 exports.makeBid = makeBid
 exports.deleteItemfromcart= deleteItemfromcart;
 exports.updateShoppingCart = updateShoppingCart;
