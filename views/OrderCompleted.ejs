@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ebay Account</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-messages.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- <script type="text/css" src="stylesheets/SignIn.css"></script>-->
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="stylesheets/include.css">
+    <script src="controllers/productController.js"></script>
+
+</head>
+<body ng-app = "product" ng-controller="product">
+<% include include.ejs %>
+<br>
+<br>
+
+<form name="account" >
+
+    <br>
+    <br>
+    <div class = "panel panel-default" align="center" style="width: 600px; margin-left: 400px">
+        <div class = "panel-heading">
+            <h3 class = "panel-title"><b>Account Management</b></h3>
+        </div>
+
+        <table class = "table">
+
+
+
+
+            <tr>
+                <td width="30%">First Name</td>
+                <td width="70%">
+                    <input type="text" ng-model="first_name" class="form-control" required>
+                    <p style="color:red" ng-show="first_invalid">First Name is Required</p>
+                </td>
+
+            </tr>
+
+            <tr>
+                <td width="30%">Last Name</td>
+                <td width="70%">
+                    <input type="text" ng-model="last_name" class="form-control" required>
+                    <p style="color:red" ng-show="last_invalid">Last Name is Required</p>
+                </td>
+            </tr>
+
+            <tr>
+                <td width="30%">Address</td>
+                <td width="70%">
+                    <input type="text" ng-model = "address" class="form-control" required>
+                    <p style="color:red" ng-show="address_invalid">Address is Required</p>
+                </td>
+            </tr>
+
+            <tr>
+                <td width="30%">City</td>
+                <td width="70%">
+                    <input type="text" ng-model= "city" class="form-control" required>
+                    <p style="color:red" ng-show="city_invalid">City is Required</p>
+                </td>
+            </tr>
+
+            <tr>
+                <td width="30%">State</td>
+                <td width="70%">
+                    <input type="text" ng-model = "state" class="form-control" required>
+                    <p style="color:red" ng-show="state_invalid">State is Required</p>
+                </td>
+            </tr>
+
+            <tr>
+                <td width="30%">Country</td>
+                <td width="70%"><input type="text" ng-model = "country" class="form-control"></td>
+            </tr>
+
+            <tr>
+                <td width="30%">Pin Code</td>
+                <td width="70%">
+                    <input type="text" ng-model = "pin_code" class="form-control">
+                    <p style="color:red" ng-show="pin_invalid">Pin Code is Required</p>
+                    <p style="color:red" ng-show="pin_wrong">Require 5 Digits</p>
+
+                </td>
+            </tr>
+
+            <tr>
+                <td width="30%">Birth Date</td>
+                <td width="70%">
+                    <input type="date" ng-model = "birthdate" class="form-control">
+                    <p style="color:red" ng-show="bdate_invalid">Birthdate is Required</p>
+                </td>
+            </tr>
+
+            <tr>
+                <td width="30%">Mobile No</td>
+                <td width="70%">
+                    <input type="text" ng-model = "mobile_no" class="form-control" required>
+                    <p style="color:red" ng-show="phone_invalid">Phone is Required</p>
+                    <p style="color:red" ng-show="phone_wrong">10 Digits Require</p>
+                </td>
+            </tr>
+
+            <tr>
+                <td width="30%">Credit Card No</td>
+                <td width="70%">
+                    <input type="text" ng-model = "ccnumber" class="form-control" required>
+                    <p style="color:red" ng-show="ccnumber_invalid">Credit Card Number is Required</p>
+                    <p style="color:red" ng-show="ccnumber_wrong">Require 16 Digits</p>
+                </td>
+            </tr>
+
+            <tr>
+                <td width="30%">Expiration Date</td>
+                <td>
+                    <input type="month" class="form-control" datepicker-popup ng-model="exp_date" is-open="status.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                    <p style="color:red" ng-show="expdate_invalid">Expiration Date is Required</p>
+                    <p style="color:red" ng-show="expdate_wrong">Please Enter Valid Date</p>
+                </td>
+            </tr>
+
+            <tr>
+                <td width="30%">CCV</td>
+                <td width="70%">
+                    <input type="text" ng-model = "ccv" class="form-control">
+                    <p style="color:red" ng-show="ccv_invalid">CCV is Required</p>
+                    <p style="color:red" ng-show="ccv_wrong">Enter 3 Digits</p>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+
+
+    <p align="center"><b><input type="submit" ng-click="changeAccountDetails()" value="Change Account Information"></b></p>
+
+    <p></p>
+    <p></p>
+</form>
+</body>
+</html>

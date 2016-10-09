@@ -73,7 +73,7 @@ function loadPaymentPage(req,res) {
         var product_id = req.param("product_id");
         var req_quantity = req.param("req_quantity");
 
-        var query = "select P.product_id, P.product_name, P.details, P.quantity, P.price, P.seller_user_id, U.first_name,U.last_name from product_details as P, user_details as U  where product_id = "+product_id+" and P.seller_user_id=U.user_id ";
+        var query = "select P.*, U.first_name,U.last_name from product_details as P, user_details as U  where product_id = "+product_id+" and P.seller_user_id=U.user_id ";
         console.log("Query is "+query);
 
         mysql.fetchData(function (err,result) {
@@ -130,7 +130,7 @@ function loadPaymentPage(req,res) {
 
         console.log("buy==no");
 
-        var query = "select C.product_id, P.product_name, P.details, P.quantity, P.price, P.seller_user_id, U.first_name,U.last_name, C.quantity as req_quantity, C.user_id from cart as C, product_details as P, user_details as U where C.user_id="+req.session.user_id+" and C.product_id=P.product_id and P.seller_user_id=U.user_id;";
+        var query = "select C.product_id, P.*, U.first_name,U.last_name, C.quantity as req_quantity, C.user_id from cart as C, product_details as P, user_details as U where C.user_id="+req.session.user_id+" and C.product_id=P.product_id and P.seller_user_id=U.user_id;";
 
         mysql.fetchData(function (err,result) {
 
@@ -183,6 +183,140 @@ function loadPaymentPage(req,res) {
 
 }
 
+function confirmOrder(req,res) {
 
+        var product = req.param("product");
+        var buy = req.param("buy");
+        var grandtotal = req.param("grandtotal");
+        console.log("-------------------Products------------------------ ");
+        console.log(product);
+        console.log("-------------------Products------------------------ ");
+        console.log("Buy is "+buy);
+
+        var query1 = "insert into order_master (buyer_id,total_price) values ("+req.session.user_id+","+grandtotal+")";
+        console.log("Query is "+query1);
+
+        mysql.fetchData(function (err,result1) {
+
+            if(err){
+
+                console.log(err);
+                var json = {"statusCode":401};
+                res.send(json);
+
+            }
+            else{
+
+                var orderId = result1.insertId;
+
+                var orderDetails = [];
+                var productDetails = [];
+                for(var i=0;i<product.length;i++){
+
+                    var product_id = product[i].product_id;
+                    var req_quantity = product[i].req_quantity;
+                    var total = product[i].total;
+                    var isAuction = product[i].isAuction;
+                    var buyer_id = req.session.user_id;
+                    var seller_id = product[i].seller_user_id;
+                    var orderObj = [orderId,product_id,req_quantity,total,isAuction,buyer_id,seller_id];
+                    orderDetails[i] = orderObj;
+
+                    var productName = product[i].product_name;
+                    var price = product[i].price;
+                    var quantity = product[i].quantity;
+                    var details = product[i].details;
+                    var auction_startdate = product[i].auction_startdate;
+                    var auction_enddate = product[i].aunction_enddate;
+                    var bid_user_id = product[i].bid_user_id;
+                    var bid_price = product[i].bid_price;
+                    var created_date = new Date(product[i].created_date);
+                  /*  var year = created_date.getFullYear();
+                    var month = created_date.getMonth();
+                    var day= created_date.getDay();
+                    var hour = created_date.getHours();
+                    var minute = created_date.getMinutes();
+                    var newdate = new Date(year,month,day,hour,minute,0,0);
+*/
+                    var newcreateddate = fecha.format(created_date, 'YYYY-MM-DD HH:mm:ss');
+
+
+
+                    var productObj = [product_id,productName,price,req_quantity,details,seller_id,isAuction,auction_startdate,auction_enddate,bid_user_id,bid_price,newcreateddate];
+                    productDetails[i] = productObj;
+                }
+
+                console.log("---------------------orderDetails----------------------");
+                console.log(orderDetails);
+                console.log("---------------------proDetails----------------------");
+                console.log(productDetails);
+                console.log("---------------------endDetails----------------------");
+
+                var query2 = "INSERT INTO order_details (order_id, product_id,quantity,total,isAuction,buyer_id,seller_id) VALUES ?";
+
+                mysql.storeData(function (err,result2) {
+
+                    if(err){
+                        console.log(err);
+                        var json = {"statusCode":401};
+                        res.send(json);
+                    }
+                    else{
+
+                        var query3 = "insert into product_details (product_id,product_name,price,quantity,details,seller_user_id,isAuction,auction_startdate,auction_enddate,bid_user_id,bid_price,created_date) values ? on duplicate key update quantity = quantity - values(quantity)";
+
+                        mysql.storeData(function (err,result3) {
+
+                            if(err){
+
+                                console.log(err);
+                                var json = {"statusCode":401};
+                                res.send(json);
+
+                            }
+                            else{
+
+                                if(buy=='no') {
+
+                                    var query4 = "delete from cart where user_id="+req.session.user_id;
+                                    console.log("Query4 is "+query4);
+
+                                    mysql.fetchData(function (err,result4) {
+
+                                        if(err){
+                                            console.log(err);
+                                            var json = {"statusCode":401};
+                                            res.send(json);
+
+                                        }else{
+                                            console.log("ALL SUCCESSFULLY COMPLETED");
+                                            var json = {"statusCode":200};
+                                            res.send(json);
+                                        }
+                                    },query4);
+                                }
+                                else{
+                                    console.log("ALL SUCCESSFULLY COMPLETED");
+                                    var json = {"statusCode":200};
+                                    res.send(json);
+                                }
+                            }
+
+                        },query3,[productDetails]);
+                    }
+
+                },query2,[orderDetails]);
+            }
+
+        },query1);
+
+
+
+}
+
+
+
+
+exports.confirmOrder= confirmOrder;
 exports.getpaymentPage = getpaymentPage;
 exports.loadPaymentPage = loadPaymentPage;

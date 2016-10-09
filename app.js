@@ -13,6 +13,15 @@ var payment = require('./routes/payment');
 var app = express();
 
 
+/*
+
+app.use(function(req, res, next) {
+  res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+  next();
+});
+
+*/
+
 app.use(session({
 
   cookieName: 'session',
@@ -72,6 +81,7 @@ app.post('/loadsearchpage', home.loadsearchpage);
 
 app.get('/getpaymentPage', payment.getpaymentPage);
 app.post('/loadPaymentPage', payment.loadPaymentPage);
+app.post('/confirmOrder', payment.confirmOrder);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

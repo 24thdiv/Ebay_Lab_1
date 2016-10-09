@@ -47,4 +47,42 @@ function fetchData(callback,query){
 
 }
 
+
+
+function storeData(callback,query,data){
+
+	console.log("Query is "+ query);
+
+	var connection = getConnection();
+	connection.getConnection(function(err,connection) {
+
+		if (err){
+			console.log(err);
+			throw err;
+		}
+		else {
+
+			connection.query(query,data, function (err, rows, fields) {
+				connection.release();
+				if (err) {
+					console.log("ERROR: " + err.message);
+					callback(err, rows);
+				}
+				else {
+
+
+					callback(err, rows);
+				}
+
+			});
+		}
+	});
+
+
+}
+
+
+
+
+exports.storeData= storeData;
 exports.fetchData = fetchData;

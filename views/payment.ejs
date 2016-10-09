@@ -91,6 +91,12 @@
 <div class="container col-md-11 col-md-offset-2">
 
 <div class="mainContent">
+    <div class="row" ng-show="alert">
+        <div class="col-md-6 alert alert-danger">
+        <p align="center">You Order cannot Process this time. Please try after some time.</p>
+        </div>
+    </div>
+
     <div class="left col-md-6" >
         <div>
 
@@ -108,7 +114,7 @@
                         <div class="panel panel-default">
                             <div id="collapseOne" class="panel-collapse collapse out">
                                 <div class="panel-body">
-                                    <form class="form-horizontal" role="form">
+                                    <form class="form-horizontal" name="payment" role="form" nonvalidate>
                                         <fieldset>
                                             <legend>Card detail</legend>
                                             <div class="form-group">
@@ -116,19 +122,42 @@
                                                     Number</label>
                                                 <div class="col-sm-9">
                                                     <input type="text" class="form-control" name="cardnumber"
-                                                           id="cardnumber" placeholder="Credit Card Number">
+                                                           ng-model="cardnumber" id="cardnumber" placeholder="Credit Card Number" required>
+                                                    <div style="color: red">{{number_invalid}}</div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-3 control-label">Expiration
                                                     Date</label>
                                                 <div class="col-xs-3">
-                                                    <input type="text" class="form-control" placeholder="mm"
-                                                           id="expMonth" name="expMonth" />
+                                                   <!-- <input type="text" class="form-control" placeholder="mm"
+                                                           ng-model="expMonth" id="expMonth" name="expMonth"  required/>
+                                                   -->
+
+                                                    <select class="form-control col-sm-2" ng-model="expMonth" name="expiryMonth" id="expiry-month" required>
+
+                                                        <option value="0">Jan (01)</option>
+                                                        <option value="1">Feb (02)</option>
+                                                        <option value="2">Mar (03)</option>
+                                                        <option value="3">Apr (04)</option>
+                                                        <option value="4">May (05)</option>
+                                                        <option value="5">June (06)</option>
+                                                        <option value="6">July (07)</option>
+                                                        <option value="7">Aug (08)</option>
+                                                        <option value="8">Sep (09)</option>
+                                                        <option value="9">Oct (10)</option>
+                                                        <option value="10">Nov (11)</option>
+                                                        <option value="11">Dec (12)</option>
+                                                    </select>
+
+
+
+                                                    <div style="color: red">{{date_invalid}}</div>
                                                 </div>
                                                 <div class="col-xs-3">
                                                     <input type="textcvv" class="form-control"
-                                                           placeholder="yyyy" id="expYear" name="expYear" />
+                                                           ng-model="expYear" placeholder="yyyy" id="expYear" name="expYear" required />
+                                                    <div style="color: red">{{date_invalid}}</div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -136,14 +165,11 @@
                                                     CVV</label>
                                                 <div class="col-sm-3">
                                                     <input type="text" class="form-control" name="cvv"
-                                                           id="cvv" placeholder="Security Code">
+                                                           ng-model="cvv" id="cvv" placeholder="Security Code" required>
+                                                    <div style="color: red">{{cvv_invalid}}</div>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <div class="col-sm-offset-3 col-sm-9">
-                                                    <input type="submit" class="btn btn-primary" value="Done">
-                                                </div>
-                                            </div>
+
                                         </fieldset>
                                     </form>
                                 </div>
@@ -256,7 +282,9 @@
                 </div>
             </div>
             <div align="center">
-                <button type="submit" id="cta-btn" class="btn btn-primary">Confirm and pay</button>
+                <button type="submit" id="cta-btn" class="btn btn-primary" ng-click="confirmOrder()" ng-disabled="!payment.$valid">Confirm and pay</button>
+
+                <div style="color: red" ng-if="!payment.$valid">Enter Credit Card Details</div>
             </div>
             </div>
 

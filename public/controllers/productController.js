@@ -202,7 +202,8 @@ product.controller('product', function($scope, $http) {
         var quantity = Number($scope.quantity);
         var price = $scope.price;
         var item = $scope.item;
-        var req_quantity = Number($scope.req_quantity);
+        //var req_quantity = Number($scope.req_quantity);
+        var req_quantity = document.getElementById("req_quantity").value;
         console.log("req_quantity "+ req_quantity);
         console.log("availble quantity "+ quantity);
         console.log("buy item get shopping cart controller")
@@ -541,6 +542,109 @@ product.controller('product', function($scope, $http) {
 
 
 
+    }
+
+
+    $scope.confirmOrder = function () {
+
+        $scope.alert = false;
+
+        var cardnumber = $scope.cardnumber;
+        var expMonth = $scope.expMonth;
+        var expYear = $scope.expYear;
+        var cvv = $scope.cvv;
+        var buy = window.buy;
+        $scope.cvv_invalid='';
+        $scope.number_invalid='';
+        $scope.date_invalid='';
+        var date = new Date();
+        var currMonth = date.getMonth();
+        var currYear = date.getFullYear();
+        var check =false;
+
+        if(expYear>currYear){
+            check = true;
+        }
+        else if(expYear==currYear){
+            if(expMonth>=currMonth)
+                check = true;
+            else
+                $scope.date_invalid = "Enter Valid Dates"
+
+        }
+        else{
+            $scope.date_invalid = "Enter Valid Dates"
+
+        }
+
+        if(!validateCardNumber(cardnumber)) {
+            $scope.number_invalid = "Please Enter 16 digit Number";
+        }
+
+        if(!validateCCV(cvv)){
+            $scope.cvv_invalid = "Enter 3 Digits Only";
+        }
+
+        if(check && validateCardNumber(cardnumber) && validateCCV(cvv)) {
+            console.log("aLL CHECKED" + check)
+
+
+
+            $http({
+                method: "POST",
+                url: '/confirmOrder',
+                data: {
+
+                    "product":$scope.product,
+                    "buy" : buy,
+                    "grandtotal": $scope.grandtotal
+                }
+
+            }).success(function (data) {
+
+                if (data.statusCode == 200) {
+
+                    console.log(data);
+
+                    console.log("status code 200");
+                    
+                }
+                
+                else{
+
+                    console.log("status code 401");
+                    $scope.alert = true;
+                }
+
+            }).error(function (error) {
+                console.log(error);
+            });
+
+
+
+
+
+        }
+
+
+    }
+
+
+
+    function validateCardNumber(number) {
+        var regex = new RegExp("^[0-9]{16}$");
+        if (!regex.test(number))
+            return false;
+
+        return true;
+    }
+
+    function validateCCV(number) {
+        var regex = new RegExp("^[0-9]{3}$");
+        if (!regex.test(number))
+            return false;
+
+        return true;
     }
 
 
