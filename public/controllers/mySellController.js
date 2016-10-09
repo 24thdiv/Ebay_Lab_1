@@ -138,6 +138,7 @@ mySell.controller('mySellList', function($scope, $http){
                 console.log("Result");
                 console.log(data.data);
                 $scope.sellItems = data.data;
+                $scope.solditems = data.datasold;
             }
 
         }).error(function(error) {

@@ -607,6 +607,10 @@ product.controller('product', function($scope, $http) {
                     console.log(data);
 
                     console.log("status code 200");
+                    var orderId = data.data;
+                    console.log("Order id "+orderId);
+                    alert(orderId);
+                    window.location.href="/orderDetails?orderId="+orderId;
                     
                 }
                 
@@ -629,6 +633,51 @@ product.controller('product', function($scope, $http) {
 
     }
 
+
+
+    $scope.loadOrderPage = function () {
+
+
+        var order = window.order;
+        console.log(" Order is "+order);
+
+        $http({
+            method: "POST",
+            url: '/loadOrder',
+            data: {
+
+                "order" : order
+            }
+
+        }).success(function (data) {
+
+            if (data.statusCode == 200) {
+
+                console.log(data.data);
+                console.log("DAta ");
+                $scope.orderdetails = data.data;
+                var grand =0;
+                for(var i=0;i<$scope.orderdetails.length;i++){
+                    grand = grand + $scope.orderdetails[i].total;
+                }
+
+                $scope.grand = grand;
+
+            }
+
+            else{
+
+                console.log("Status Code 401");
+
+            }
+
+        }).error(function (error) {
+            console.log(error);
+        });
+
+
+
+    }
 
 
     function validateCardNumber(number) {

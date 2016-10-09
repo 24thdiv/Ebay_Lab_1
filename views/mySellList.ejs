@@ -80,7 +80,7 @@
                     <tr>
                         <th>Item Name</th>
                         <th>Item Details</th>
-                        <th>Price</th>
+                        <th>Price ($)</th>
                         <th>Quantity</th>
 
                     </tr>
@@ -91,7 +91,7 @@
 
                         <td>{{item.product_name}}</td>
                         <td>{{item.details}}</td>
-                        <td>{{item.price}}$</td>
+                        <td>{{item.bid_price || 'No Bid'}}</td>
                         <td>{{item.quantity}}</td>
 
                     </tr>
@@ -108,35 +108,35 @@
 
 
         <div id="menu2" class="tab-pane fade">
-            <h3>Sold Items</h3>
+            <h3 ng-if="solditems.length>0">Sold Items</h3>
+            <br>
+            <div class="alert alert-info col-md-3" ng-if="solditems.length<1"><p align="center">You haven't Sold any Item</p></div>
+            <div class = "panel panel-default" align="center" style="width: auto" ng-if="solditems.length>0">
 
-            <div class = "panel panel-default" align="center" style="width: 600px;">
 
-
-                <table class="table table-bordered">
+                <table class="table table-bordered" width="150%">
                     <thead>
                     <tr>
-                        <th>Firstname</th>
-                        <th>Lastname</th>
-                        <th>Email</th>
+                        <th>Order ID</th>
+                        <th>Item Name</th>
+                        <th>Details</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Buyer Name</th>
+                        <th>Order Date</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>John</td>
-                        <td>Doe</td>
-                        <td>john@example.com</td>
+                    <tr ng-repeat="sold in solditems">
+                        <td>{{sold.order_id}}</td>
+                        <td>{{sold.product_name}}</td>
+                        <td>{{sold.details}}</td>
+                        <td>{{sold.quantity}}</td>
+                        <td>{{sold.total}}</td>
+                        <td>{{sold.first_name}} {{sold.last_name}}</td>
+                        <td>{{sold.order_date}}</td>
                     </tr>
-                    <tr>
-                        <td>Mary</td>
-                        <td>Moe</td>
-                        <td>mary@example.com</td>
-                    </tr>
-                    <tr>
-                        <td>July</td>
-                        <td>Dooley</td>
-                        <td>july@example.com</td>
-                    </tr>
+
                     </tbody>
                 </table>
             </div>

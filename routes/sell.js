@@ -64,17 +64,25 @@ function getSellItems(req,res) {
             }
             else{
 
-                if(result.length>0) {
-                    var json = {"statusCode": 200, "data": result};
-                    console.log(result);
-                    res.send(json);
-                }
-                else{
+                    var query1 = "select P.product_id,P.product_name, P.details, O.order_date,O.order_id,O.buyer_id, U.first_name, U.last_name,O.quantity, O.total from order_details as O,product_details as P, user_details as U where seller_id = "+req.session.user_id+" and O.product_id = P.product_id and O.buyer_id=U.user_id and O.isAuction='No'";
+                    mysql.fetchData(function (err,result1) {
 
-                    var json = {"statusCode": 201};
-                    console.log(result);
-                    res.send(json);
-                }
+                        if(err){
+
+
+                        }
+                        else{
+
+                            var json = {"statusCode": 200, "data": result, "datasold": result1};
+                            console.log(result);
+                            res.send(json);
+                        }
+
+
+                    },query1);
+
+
+
             }
 
         },query);

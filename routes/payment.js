@@ -208,7 +208,7 @@ function confirmOrder(req,res) {
             else{
 
                 var orderId = result1.insertId;
-
+                console.log("Order id is --------------------"+orderId);
                 var orderDetails = [];
                 var productDetails = [];
                 for(var i=0;i<product.length;i++){
@@ -219,7 +219,7 @@ function confirmOrder(req,res) {
                     var isAuction = product[i].isAuction;
                     var buyer_id = req.session.user_id;
                     var seller_id = product[i].seller_user_id;
-                    var orderObj = [orderId,product_id,req_quantity,total,isAuction,buyer_id,seller_id];
+                    var orderObj = [orderId,product_id,req_quantity,total,isAuction,buyer_id,seller_id,fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss')];
                     orderDetails[i] = orderObj;
 
                     var productName = product[i].product_name;
@@ -252,7 +252,7 @@ function confirmOrder(req,res) {
                 console.log(productDetails);
                 console.log("---------------------endDetails----------------------");
 
-                var query2 = "INSERT INTO order_details (order_id, product_id,quantity,total,isAuction,buyer_id,seller_id) VALUES ?";
+                var query2 = "INSERT INTO order_details (order_id, product_id,quantity,total,isAuction,buyer_id,seller_id,order_date) VALUES ?";
 
                 mysql.storeData(function (err,result2) {
 
@@ -290,14 +290,15 @@ function confirmOrder(req,res) {
 
                                         }else{
                                             console.log("ALL SUCCESSFULLY COMPLETED");
-                                            var json = {"statusCode":200};
+                                            console.log("Order id id "+orderId);
+                                            var json = {"statusCode":200, "data": orderId};
                                             res.send(json);
                                         }
                                     },query4);
                                 }
                                 else{
                                     console.log("ALL SUCCESSFULLY COMPLETED");
-                                    var json = {"statusCode":200};
+                                    var json = {"statusCode":200,"data": orderId};
                                     res.send(json);
                                 }
                             }
@@ -317,6 +318,100 @@ function confirmOrder(req,res) {
 
 
 
+
+
+
+
+function orderDetails(req,res) {
+
+
+    var orderId = req.query.orderId;
+    console.log("Order Id "+orderId);
+
+/*
+    var query = "SELECT * FROM ebay_db.order_details where order_id="+orderId;
+    console.log("Query is "+query);
+    var json={};
+    mysql.fetchData(function (err,result) {
+
+        if(err){
+
+            console.log(err);
+            json = {"statusCode":401};
+
+
+        }
+        else{
+
+            json={"statusCode":200, "data":result};
+
+
+        }
+
+
+    },query);
+*/
+
+    var data = {
+        "user_id" : req.session.user_id,
+        "email" : req.session.email,
+        "fname" : req.session.fname,
+        "lld"   : req.session.lld,
+        "order" : orderId,
+    };
+
+
+    ejs.renderFile('./views/OrderCompleted.ejs',data, function (err, result) {
+
+        if (err)
+            res.send("An error occured to get order page");
+        else
+            console.log('getting order page');
+        res.end(result);
+
+
+    });
+
+
+
+}
+
+
+function loadOrder(req,res) {
+
+
+    var orderId = req.param("order");
+    console.log("Order Id "+orderId);
+
+
+     var query = "SELECT P.product_name, O.order_id, P.details, O.quantity as rq, O.total FROM product_details as P, order_details as O where order_id="+orderId+" and P.product_id=O.product_id";
+     console.log("Query is "+query);
+     var json={};
+     mysql.fetchData(function (err,result) {
+
+     if(err){
+
+        console.log(err);
+        json = {"statusCode":401};
+         res.send(json);
+
+     }
+     else
+     {
+
+        json={"statusCode":200, "data":result};
+        res.send(json);
+     }
+
+
+     },query);
+
+
+
+}
+
+exports.loadOrder=loadOrder;
+exports.orderDetails= orderDetails;
 exports.confirmOrder= confirmOrder;
 exports.getpaymentPage = getpaymentPage;
 exports.loadPaymentPage = loadPaymentPage;
