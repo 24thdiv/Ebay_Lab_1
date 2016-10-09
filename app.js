@@ -84,6 +84,8 @@ app.post('/loadPaymentPage', payment.loadPaymentPage);
 app.post('/confirmOrder', payment.confirmOrder);
 app.get('/orderDetails', payment.orderDetails);
 app.post('/loadOrder',payment.loadOrder );
+app.get('/getPurchaseOrderPage', payment.getPurchaseOrderPage);
+app.post('/loadPurchase', payment.loadPurchase);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

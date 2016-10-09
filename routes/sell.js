@@ -64,7 +64,7 @@ function getSellItems(req,res) {
             }
             else{
 
-                    var query1 = "select P.product_id,P.product_name, P.details, O.order_date,O.order_id,O.buyer_id, U.first_name, U.last_name,O.quantity, O.total from order_details as O,product_details as P, user_details as U where seller_id = "+req.session.user_id+" and O.product_id = P.product_id and O.buyer_id=U.user_id and O.isAuction='No'";
+                    var query1 = "select P.product_id,P.product_name, P.details, O.order_date,O.order_id,O.buyer_id, U.first_name, U.last_name,O.quantity, O.total from order_details as O,product_details as P, user_details as U where O.seller_id = "+req.session.user_id+" and O.product_id = P.product_id and O.buyer_id=U.user_id and O.isAuction='No'";
                     mysql.fetchData(function (err,result1) {
 
                         if(err){

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ebay Orders</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-messages.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- <script type="text/css" src="stylesheets/SignIn.css"></script>-->
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="stylesheets/include.css">
+    <script src="controllers/productController.js"></script>
+
+</head>
+
+<body ng-app = "product" ng-controller="product" ng-init="loadPurchasePage()">
+<% include include.ejs %>
+
+
+<div class="container">
+    <h3>My Purchase Details</h3>
+    <br>
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#home"><b>Bought Items</b></a></li>
+        <li><a href="#menu1"><b>Auction Items </b></a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+            <h3>Bought Items</h3>
+            <div class="alert alert-info col-md-3" ng-show="noitems"><p align="center">You didn't Purchase any Item</p></div>
+            <div class = "panel panel-default" align="center"  style="width: 700px;" ng-repeat="order in orderDetails" ng-if="orderDetails.length>0">
+            <div class="panel-heading">
+
+                <table>
+                    <tr>
+                        <td width="35%">
+                            <b>Order ID: {{order.orderId}}</b>
+                        </td>
+                        <td width="30%">
+                            <b>Total: {{order.ordertotal}}$</b>
+                        </td>
+                        <td width="50%">
+                            <b>Date: {{order.orders[0].order_date}}</b>
+                        </td>
+
+                    </tr>
+                </table>
+
+            </div>
+                <table class="table table-bordered"  >
+                    <thead>
+                    <tr>
+                        <th>Item Name</th>
+                        <th>Item Details</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Seller Name</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in order.orders">
+
+
+                        <td>{{item.product_name}}</td>
+                        <td>{{item.details}}</td>
+                        <td>{{item.quantity}}</td>
+                        <td>{{item.total}}$</td>
+                        <td>{{item.first_name}} {{item.last_name}}</td>
+
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+
+
+        <div id="menu1" class="tab-pane fade">
+            <h3>Auction Items</h3>
+
+
+            <div class = "panel panel-default" align="center" style="width: 600px; ">
+
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Item Name</th>
+                        <th>Item Details</th>
+                        <th>Price ($)</th>
+                        <th>Quantity</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+
+
+                        <td>ss</td>
+                        <td>ss</td>
+                        <td>ss</td>
+                        <td>ss</td>
+
+                    </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $(".nav-tabs a").click(function(){
+            $(this).tab('show');
+        });
+    });
+</script>
+
+
+
+
+
+</body>
+</html>

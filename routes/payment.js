@@ -410,6 +410,106 @@ function loadOrder(req,res) {
 
 }
 
+function getPurchaseOrderPage(req,res) {
+
+    var data = {
+        "user_id" : req.session.user_id,
+        "email" : req.session.email,
+        "fname" : req.session.fname,
+        "lld"   : req.session.lld,
+        
+    };
+
+
+    ejs.renderFile('./views/purchaseOrder.ejs',data, function (err, result) {
+
+        if (err)
+            res.send("An error occured to get order page");
+        else
+            console.log('getting order page');
+        res.end(result);
+
+
+    });
+
+
+
+}
+
+
+
+function loadPurchase(req,res) {
+
+
+    var query = "select P.product_id,P.product_name, P.details, O.order_date,O.order_id,O.buyer_id, U.first_name, U.last_name,O.quantity, O.total from order_details as O,product_details as P, user_details as U where O.buyer_id="+req.session.user_id+" and O.product_id = P.product_id and O.seller_id=U.user_id and O.isAuction='No' order by order_id";
+    console.log("Query is "+query);
+    mysql.fetchData(function (err,result) {
+
+        if(err){
+
+            console.log(err);
+            json = {"statusCode":401};
+            res.send(json);
+        }
+        else if(result.length>0){
+
+            var orderIdArray = [];
+            for(var i=0;i<result.length;i++){
+                orderIdArray.push(result[i].order_id);
+            }
+            console.log("Order id before");
+            console.log(orderIdArray);
+            var distintctOrderId = [];
+            for(var x= 0; x < orderIdArray.length; x++){
+                if(distintctOrderId.indexOf(orderIdArray[x]) == -1)distintctOrderId.push(orderIdArray[x]);
+            }
+            console.log("Order id after");
+            console.log(distintctOrderId);
+
+            var OrdersDetails = [];
+
+            for(var i=0;i<distintctOrderId.length;i++){
+
+                var Order = {"orderId": distintctOrderId[i], "ordertotal": 0, "orders":[]};
+                var total = 0;
+                for(var j=0;j<result.length;j++){
+
+                    if(Order.orderId==result[j].order_id){
+                        total = total + result[j].total;
+                        Order.orders.push(result[j]);
+                    }
+                }
+                Order.ordertotal = total;
+                OrdersDetails.push(Order);
+            }
+
+            console.log("--------------------OrderDetails---------------------------");
+            console.log(OrdersDetails);
+            console.log("--------------------OrderDetails---------------------------");
+
+            json = {"statusCode":200, "order": OrdersDetails};
+            res.send(json);
+
+
+        }
+        else{
+
+            console.log(err);
+            json = {"statusCode":201};
+            res.send(json);
+
+        }
+
+
+    },query);
+
+
+
+}
+
+
+exports.loadPurchase =loadPurchase;
+exports.getPurchaseOrderPage = getPurchaseOrderPage;
 exports.loadOrder=loadOrder;
 exports.orderDetails= orderDetails;
 exports.confirmOrder= confirmOrder;

@@ -680,6 +680,43 @@ product.controller('product', function($scope, $http) {
     }
 
 
+
+    $scope.loadPurchasePage = function () {
+
+        $scope.noitems = false;
+
+        $http({
+            method: "POST",
+            url: '/loadPurchase'
+
+        }).success(function (data) {
+
+            if (data.statusCode == 200) {
+
+                var orderDetails = data.order;
+                console.log(orderDetails);
+                $scope.orderDetails = orderDetails;
+
+            }
+            else if(data.statusCode==201){
+             
+                console.log("Status Code 201 no purchase history");
+                $scope.noitems = true;
+            
+            }else{
+            
+                console.log("Status Code 401");
+            
+            }
+
+        }).error(function (error) {
+            console.log(error);
+        });
+        
+    }
+
+
+
     function validateCardNumber(number) {
         var regex = new RegExp("^[0-9]{16}$");
         if (!regex.test(number))
