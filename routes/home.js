@@ -1,7 +1,7 @@
 /**
  * Created by Divya Patel on 9/19/2016.
  */
-
+var logger= require('./log.js');
 var mysql = require('./mysql.js');
 var ejs = require('ejs');
 var fecha = require('fecha');
@@ -15,6 +15,7 @@ function homepage(req,res){
             "loginhandle":req.session.handle
         };
 
+    logger.eventlog.info(req.session.user_id+"-HomePage"+"-User redirected to home page");
         ejs.renderFile('./views/home.ejs',data, function (err, result) {
 
             if (err)
@@ -95,6 +96,7 @@ function getProductDetailsPage(req,res) {
             "loginhandle":req.session.handle
         };
 
+        logger.eventlog.info(req.session.user_id+"-ProductClick"+product_id+"-User click on product");
         ejs.renderFile('./views/productPage.ejs',data, function (err, result) {
 
             if (err)
@@ -162,7 +164,7 @@ function getProductDetails(req,res) {
 
 function addtoShoppingCart(req,res) {
 
-
+    logger.eventlog.info(req.session.user_id+"-AddToCart"+"-User click on Add to cart button");
     console.log("In addto shopping cart route");
     var item = req.param("item");
     var req_quantity = req.param("req_quantity");
@@ -228,6 +230,7 @@ function addtoShoppingCart(req,res) {
 
 function getShoppingCart(req, res) {
 
+    logger.eventlog.info(req.session.user_id+"-ShoppingCart"+"-User click on shopping cart");
     var data = {
         "user_id" : req.session.user_id,
         "email" : req.session.email,
@@ -286,6 +289,7 @@ function loadShoppingCart(req,res) {
 
 function updateShoppingCart(req,res) {
 
+    logger.eventlog.info(req.session.user_id+"-UpdateCart"+"-User updated quantity in cart");
     var product_id = req.param("product_id");
     var quantity = req.param("quantity");
     var user_id = req.session.user_id;
@@ -312,8 +316,10 @@ function updateShoppingCart(req,res) {
 
 function deleteItemfromcart(req,res) {
 
-    console.log("in delete item routs");
     var product_id = req.param("product_id");
+    logger.eventlog.info(req.session.user_id+"-DeleteFromCart"+product_id+"-User deleted item from cart");
+    console.log("in delete item routs");
+
     console.log("Delted item id "+product_id);
 
     var query = "delete from cart where product_id="+product_id+" and user_id="+req.session.user_id;
@@ -340,8 +346,9 @@ function deleteItemfromcart(req,res) {
 }
 
 function makeBid(req,res) {
-
     var product_id = req.param("product_id");
+    logger.eventlog.info(req.session.user_id+"-MakeBid"+product_id+"-User made a bid");
+
     var bid = req.param("bid");
     console.log("Product_id "+product_id);
     console.log("new bid "+bid);
@@ -359,6 +366,7 @@ function makeBid(req,res) {
 
         }else{
 
+            logger.bidlog.info(req.session.user_id+"-MakeBid-"+product_id+"-"+bid+"-User made a bid");
             var  json={"statusCode":200};
             res.send(json);
 
@@ -373,6 +381,8 @@ function makeBid(req,res) {
 function getsearchpage(req,res) {
 
     var search = req.param("search");
+    logger.eventlog.info(req.session.user_id+"-Search-"+search+"-User searched item");
+
     console.log("Search is "+ search);
 
     var data = {

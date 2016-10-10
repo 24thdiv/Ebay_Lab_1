@@ -2,6 +2,7 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
+var fs = require('fs');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session  = require("express-session");
@@ -11,7 +12,9 @@ var signIn = require('./routes/signIn');
 var account = require('./routes/account');
 var sell = require('./routes/sell');
 var payment = require('./routes/payment');
+var logDir = 'log';
 var app = express();
+
 
 
 /*
@@ -53,7 +56,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
+if (!fs.existsSync(logDir)) {
+  fs.mkdirSync(logDir);
+}
 
 app.get('/signIn', signIn.login);
 app.post('/checklogin', signIn.checklogin);

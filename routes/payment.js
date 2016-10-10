@@ -5,6 +5,7 @@
 var mysql = require('./mysql.js');
 var ejs = require('ejs');
 var fecha = require('fecha');
+var logger = require('./log.js');
 
 function getpaymentPage(req,res) {
 
@@ -48,7 +49,7 @@ function getpaymentPage(req,res) {
 
     }
 
-
+    logger.eventlog.info(req.session.user_id+"-ProceedToCheckout"+"-User click on Proceed to checkout button");
     ejs.renderFile('./views/payment.ejs',data, function (err, result) {
 
         if (err)
@@ -293,6 +294,7 @@ function confirmOrder(req,res) {
                                             res.send(json);
 
                                         }else{
+                                            logger.eventlog.info(req.session.user_id+"-ConfirmOrder"+"-User click on confirm order");
                                             console.log("ALL SUCCESSFULLY COMPLETED");
                                             console.log("Order id id "+orderId);
                                             var json = {"statusCode":200, "data": orderId};
@@ -301,6 +303,7 @@ function confirmOrder(req,res) {
                                     },query4);
                                 }
                                 else{
+                                    logger.eventlog.info(req.session.user_id+"-ConfirmOrder"+"-User click on confirm order");
                                     console.log("ALL SUCCESSFULLY COMPLETED");
                                     var json = {"statusCode":200,"data": orderId};
                                     res.send(json);
@@ -365,7 +368,7 @@ function orderDetails(req,res) {
         "loginhandle":req.session.handle
     };
 
-
+    logger.eventlog.info(req.session.user_id+"-OrderPage"+"-User redirected to ordercompleted page");
     ejs.renderFile('./views/OrderCompleted.ejs',data, function (err, result) {
 
         if (err)
@@ -426,7 +429,7 @@ function getPurchaseOrderPage(req,res) {
         
     };
 
-
+    logger.eventlog.info(req.session.user_id+"-MyPurchaseHistory"+"-User click on My Purchase History");
     ejs.renderFile('./views/purchaseOrder.ejs',data, function (err, result) {
 
         if (err)

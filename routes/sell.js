@@ -4,6 +4,7 @@
 var mysql = require('./mysql.js');
 var ejs = require('ejs');
 var fecha = require('fecha');
+var logger = require('./log.js');
 
 function sellItem(req,res) {
 
@@ -19,6 +20,7 @@ function sellItem(req,res) {
 
    if(isAuction=="No") {
        query = "insert into product_details (product_name,price,quantity,details,seller_user_id,isAuction,created_date) values ('" + pro_name + "','" + price + "','" + quantity + "','" + pro_desc + "'," + user_id + ",'" + isAuction + "',sysdate())";
+
        console.log("Query is "+query);
    }
    else if(isAuction=="Yes") {
@@ -38,6 +40,7 @@ function sellItem(req,res) {
         }
         else{
 
+            logger.eventlog.info(req.session.user_id+"-SellItem"+"-User added item to sell");
             var json_res = {"statusCode" : 200};
             res.send(json_res);
 
@@ -73,6 +76,7 @@ function getSellItems(req,res) {
                         }
                         else{
 
+                            
                             var json = {"statusCode": 200, "data": result, "datasold": result1};
                             console.log(result);
                             res.send(json);

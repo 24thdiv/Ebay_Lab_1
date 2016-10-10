@@ -4,9 +4,11 @@
 var bcrypt = require('bcryptjs');
 var ejs = require("ejs");
 var mysql = require('./mysql.js');
+var logger = require('./log.js');
 
 function login(req, res) {
 
+    logger.eventlog.info(req.session.user_id+"-SignInPage-User redirected to sign in page");
     ejs.renderFile('./views/SignIn.ejs', function (err,result) {
 
         if(err)
@@ -94,6 +96,7 @@ function checklogin(req,res){
                                         req.session.handle = result2[0].handle;
                                         console.log("Login handle "+req.session.handle);
                                         var json_responses = {"statusCode": 200, "data": result};
+                                        logger.eventlog.info(req.session.user_id+"-Login"+"-User logged in");
                                         res.send(json_responses);
 
 
@@ -174,7 +177,7 @@ function registerUser(req,res){
                         else{
                             console.log("inserted in user details table");
                             console.log(result1);
-
+                            logger.eventlog.info(req.session.user_id+"-Register"+"-User Registered")
                             var json_responses = {"statusCode" : 200, "data":result};
                             res.send(json_responses);
 
@@ -196,6 +199,7 @@ function registerUser(req,res){
 
 function logout(req,res){
 
+    logger.eventlog.info(req.session.user_id+"-Logout"+"-User Logout");
     req.session.destroy();
     res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
     res.redirect("/");

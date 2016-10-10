@@ -4,6 +4,7 @@
 var mysql = require('./mysql.js');
 var ejs = require('ejs');
 var fecha = require('fecha');
+var logger = require('./log.js');
 
 function showAccount (req,res) {
 
@@ -14,6 +15,8 @@ function showAccount (req,res) {
         "lld"   : req.session.lld,
         "loginhandle":req.session.handle
     }
+
+    logger.eventlog.info(req.session.user_id+"-AccountPage"+"-User click on My account setting");
 
     ejs.renderFile('./views/account.ejs',data, function (err,result) {
 
@@ -36,6 +39,9 @@ function mySellItems(req,res) {
         "lld"   : req.session.lld,
         "loginhandle":req.session.handle
     }
+
+    logger.eventlog.info(req.session.user_id+"-SellPage"+"-User click on Sell button");
+
     ejs.renderFile('./views/mySellList.ejs',data, function (err,result) {
 
         if(err)
@@ -128,6 +134,8 @@ function changeAccountDetails(req,res) {
         }
         else{
 
+            logger.eventlog.info(req.session.user_id+"-AccountDetailsChanged"+"-User changed his/her account details");
+
             var json_res = {"statusCode": 200};
             res.send(json_res);
 
@@ -146,6 +154,7 @@ function getSellItemPage(req,res) {
         "lld"   : req.session.lld,
         "loginhandle":req.session.handle
     }
+    logger.eventlog.info(req.session.user_id+"-SellItemPage"+"-User click on Sell Item Button to sell item");
 
     ejs.renderFile('./views/SellItem.ejs',data, function (err,result) {
 
@@ -175,6 +184,8 @@ function getuserInfo(req,res) {
         "handle": handle,
         "loginhandle":req.session.handle
     }
+
+    logger.eventlog.info(req.session.user_id+"-ProfilePage"+"-User click Profile");
 
     ejs.renderFile('./views/userInfo.ejs',data, function (err,result) {
 
