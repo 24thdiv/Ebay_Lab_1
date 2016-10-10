@@ -35,10 +35,10 @@ function getAllItems(req,res) {
     console.log("user_id "+user_id);
     if(user_id==undefined)
     {
-        var query = "select * from product_details where quantity>0 and auction_enddate>sysdate()";
+        var query = "select * from product_details where quantity>0";
     }
     else{
-        var query = "select * from product_details where quantity>0 and auction_enddate>sysdate() and seller_user_id!="+user_id;
+        var query = "select * from product_details where quantity>0 and seller_user_id!="+user_id;
     }
 
 

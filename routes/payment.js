@@ -263,6 +263,8 @@ function confirmOrder(req,res) {
                     }
                     else{
 
+                        console.log("RESULT 2");
+                        console.log(result2);
                         var query3 = "insert into product_details (product_id,product_name,price,quantity,details,seller_user_id,isAuction,auction_startdate,auction_enddate,bid_user_id,bid_price,created_date) values ? on duplicate key update quantity = quantity - values(quantity)";
 
                         mysql.storeData(function (err,result3) {
@@ -504,10 +506,74 @@ function loadPurchase(req,res) {
     },query);
 
 
+}
+
+function auctionjob() {
+
+    console.log("Auction job");
+    var query="select * from product_details where isAuction='Yes' and auction_enddate<sysdate() and bid_user_id!=''";
+    mysql.fetchData(function (err,result) {
+
+        if(err){
+            console.log(err);
+        }
+        else if(result.length>0){
+
+            var query1 = "insert into order_master (buyer_id,total_price) values ("+result[0].bid_user_id+","+result[0].bid_price+")";
+            console.log("Query1 is "+query1);
+            mysql.fetchData(function (err,result1) {
+
+                if(err){
+                    console.log(err);
+                }
+                else{
+
+                    var orderId= result1.insertId;
+                    console.log("Order id is "+orderId);
+
+
+                    var query3 = "insert into order_details (order_id,product_id,quantity,total,isAuction,buyer_id,seller_id,order_date) values ("+orderId+","+result[0].product_id+",1,"+result[0].bid_price+",'Yes',"+result[0].bid_user_id+","+result[0].seller_user_id+",sysdate())";
+                    console.log("Query3 is "+query3);
+                    mysql.fetchData(function (err,result3) {
+
+                        if(err){
+                            console.log(err);
+
+                        }
+                        else{
+
+                            var query4 = "update product_details set quantity=0, isAuction='Sold' where product_id="+result[0].product_id;
+                            console.log("Query4 is"+query4);
+                            mysql.fetchData(function (err,result4) {
+
+                                if(err){
+                                    console.log(err);
+                                }
+                                else{
+
+                                    console.log("ALL SUCCESSFULLY DONE IN AUCTION");
+                                }
+
+                            },query4);
+                        }
+
+
+                    },query3);
+
+                }
+
+            },query1);
+
+
+        }
+
+    },query);
+
+
 
 }
 
-
+exports.auctionjob=auctionjob;
 exports.loadPurchase =loadPurchase;
 exports.getPurchaseOrderPage = getPurchaseOrderPage;
 exports.loadOrder=loadOrder;

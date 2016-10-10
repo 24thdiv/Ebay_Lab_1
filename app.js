@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session  = require("express-session");
+var cron = require('cron');
 var home = require('./routes/home');
 var signIn = require('./routes/signIn');
 var account = require('./routes/account');
@@ -21,6 +22,11 @@ app.use(function(req, res, next) {
 });
 
 */
+
+var cronJob = cron.job("0 */1 * * * *",payment.auctionjob);
+//cronJob.start();
+
+
 
 app.use(session({
 

@@ -29,7 +29,20 @@ product.controller('product', function($scope, $http,$interval) {
             else {
                 console.log("Result");
                 console.log(data.data);
-                $scope.allItems = data.data;
+
+                var items = data.data;
+                for(var i=0;i<items.length;i++){
+
+                    var today = new Date();
+                    if(items[i].isAuction=='Yes' && new Date(items[i].auction_enddate) < today)
+                        items.splice(i, 1);
+                }
+
+                $scope.allItems = items;
+                console.log("After opration");
+                console.log(items);
+
+
             }
 
         }).error(function(error) {
