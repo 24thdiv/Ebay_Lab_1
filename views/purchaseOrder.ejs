@@ -35,7 +35,7 @@
         <div id="home" class="tab-pane fade in active">
             <h3>Bought Items</h3>
             <div class="alert alert-info col-md-3" ng-show="noitems"><p align="center">You didn't Purchase any Item</p></div>
-            <div class = "panel panel-default" align="center"  style="width: 700px;" ng-repeat="order in orderDetails" ng-if="orderDetails.length>0">
+            <div class = "panel panel-default" align="center"  style="width: 700px;" ng-repeat="order in orderDetails" ng-if="orderDetails.length>0 && order.orders[0].isAuction=='No' ">
             <div class="panel-heading">
 
                 <table>
@@ -88,27 +88,49 @@
         <div id="menu1" class="tab-pane fade">
             <h3>Auction Items</h3>
 
+            <div class="alert alert-info col-md-3" ng-show="noitems"><p align="center">You didn't Purchase any Item</p></div>
+            <div class = "panel panel-default" align="center" style="width: 700px; " ng-repeat="order in orderDetails" ng-if="orderDetails.length>0 && order.orders[0].isAuction=='Yes' ">
 
-            <div class = "panel panel-default" align="center" style="width: 600px; ">
+                <div class="panel-heading">
+
+                    <table>
+                        <tr>
+                            <td width="35%">
+                                <b>Order ID: {{order.orderId}}</b>
+                            </td>
+                            <td width="30%">
+                                <b>Total: {{order.ordertotal}}$</b>
+                            </td>
+                            <td width="50%">
+                                <b>Date: {{order.orders[0].order_date}}</b>
+                            </td>
+
+                        </tr>
+                    </table>
+
+                </div>
+
 
                 <table class="table table-bordered">
                     <thead>
                     <tr>
                         <th>Item Name</th>
                         <th>Item Details</th>
-                        <th>Price ($)</th>
                         <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Seller Name</th>
 
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
+                    <tr ng-repeat="item in order.orders">
 
 
-                        <td>ss</td>
-                        <td>ss</td>
-                        <td>ss</td>
-                        <td>ss</td>
+                        <td>{{item.product_name}}</td>
+                        <td>{{item.details}}</td>
+                        <td>{{item.quantity}}</td>
+                        <td>{{item.total}}$</td>
+                        <td>{{item.first_name}} {{item.last_name}}</td>
 
                     </tr>
 

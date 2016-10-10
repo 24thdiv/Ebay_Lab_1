@@ -243,6 +243,53 @@ account.controller('accoutMan', function($scope, $http){
 
     }
 
+
+    $scope.loaduserInfo = function () {
+
+        var handle = window.handle;
+        $scope.handle = handle;
+        console.log("Handle "+handle);
+
+        $http({
+            method : "POST",
+            url : '/loaduserPage',
+            data : {
+
+                "handle": handle
+            }
+        }).success(function(data) {
+
+            if (data.statusCode == 401) {
+
+                console.log("error");
+
+            }
+            else
+            {
+
+                var items =data.data;
+                var loginhandle= data.loginhandle;
+                $scope.items = items;
+                $scope.loginhandle = loginhandle;
+                if(handle==loginhandle){
+                    $scope.hidebutton = true;
+                }
+                else{
+                    $scope.hidebutton = false;
+                }
+
+
+            }
+        }).error(function(error) {
+            console.log(error);
+        });
+
+
+
+    }
+
+
+
     function init(){
 
         $scope.ccv_invalid = false;

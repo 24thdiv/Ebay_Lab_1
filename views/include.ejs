@@ -9,6 +9,7 @@
                         <%if(fname){%>
                             <ul class="dropdown-menu">
 
+                                <li><a class="fontSize" href="/user/<%=loginhandle%>" style="color: black">Profile</a></li>
                                 <li><a class="fontSize" href="/mySellItems" style="color: black">My Collection</a></li>
                                 <li><a class="fontSize" href="/accountManagement" style="color: black">Account Setting</a></li>
                                 <li><a class="fontSize" href="/logout" style="color: black">Log Out</a></li>
@@ -78,7 +79,7 @@
                 <%if(fname){%>
                 <button name="searchbutton" class="btn btn-primary" value="Search" style="height: 50px;width: 150px" ng-click="searchItems()" >Search</button>
                 <%}else{%>
-                <input type="button" name="searchbutton" class="btn btn-primary" value="Search" style="height: 50px;width: 150px"  >
+                <a href="/signIn"><button name="searchbutton" class="btn btn-primary" value="Search" style="height: 50px;width: 150px"  >Search</button></a>
                 <%}%>
             </td>
 

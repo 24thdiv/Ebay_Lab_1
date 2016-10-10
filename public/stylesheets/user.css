@@ -1,0 +1,147 @@
+#cover_wrapper {
+    width: 100%;
+    height: 270px;
+    background: #f1f1f1;
+    overflow: hidden;
+    position: relative;
+}
+
+#cover_wrapper img {
+    width: 1200px;
+    position: relative;
+}
+
+.idx_crd.no_feedback {
+    height: 160px;
+}
+.idx_crd {
+    width: 950px;
+    height: 310px;
+    margin: -160px auto 50px;
+    position: relative;
+    box-shadow: 0 0 5px 0 #CCC;
+}
+
+.idx_crd .shad {
+    background: #f9f9f9 none repeat scroll 0 0;
+    height: 160px;
+    opacity: 0.95;
+    width: 100%;
+}
+.shad {
+    background: #fff none repeat scroll 0 0;
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+
+.usrimg img {
+    margin-bottom: -2px;
+    max-height: 150px;
+    max-width: 150px;
+}
+.usrimg .icon {
+    border: 1px solid #ddd;
+    display: table;
+    height: 150px;
+    margin: 7px 0 0 7px;
+    position: relative;
+    text-align: center;
+    vertical-align: middle;
+    width: 150px;
+}
+
+
+.usrimg .cll {
+    display: table-cell;
+    height: 150px;
+    vertical-align: middle;
+}
+
+.userinfo {
+    font-size: 14px;
+    left: 170px;
+    position: absolute;
+    top: 15px;
+}
+
+.mbg {
+    display: inline-block;
+}
+
+.mbg-l {
+    display: inline-block;
+    margin-right: 6px;
+    padding: 3px 0;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.mbg .mbg-id {
+    margin: 5px 0 0;
+}
+.mbg a {
+    cursor: pointer;
+}
+a {
+    color: #0654ba;
+    text-decoration: none;
+}
+
+.global_btn {
+    left: 170px;
+    position: absolute;
+    top: 70px;
+}
+.selling {
+    margin: 30px 0;
+}
+
+
+.b-space2 {
+    margin-bottom: 20px;
+}
+
+
+.selling h2 {
+    font-size: 24px;
+}
+
+.btn.btn-ter, a.btn.btn-ter, a.btn.btn-ter:visited, .btn.btn-ter.btn-d:hover, a.btn.btn-ter.btn-d:hover, .btn.btn-ter.btn-d:focus, a.btn.btn-ter.btn-d:focus, .btn.btn-ter.btn-d:active, a.btn.btn-ter.btn-d:active {
+    background: rgba(0, 0, 0, 0) -moz-linear-gradient(center top , #fefefe, #f8f8f8) repeat scroll 0 0;
+    border: 1px solid #ddd;
+    color: #0654ba;
+    text-decoration: none;
+}
+.global_btn button {
+    font-weight: bold;
+}
+
+.btn-s {
+    font-size: 12px;
+}
+
+.shrtct {
+    position: relative;
+    top: 20px;
+}
+.fr {
+    float: right;
+}
+.shrtct .each {
+    padding-bottom: 0;
+    padding-left: 0;
+    padding-right: 20px;
+    padding-top: 0;
+}
+.fl {
+    float: left;
+}
+.store {
+    background-position-x: -163px;
+    background-position-y: -3px;
+}
+
+.fl {
+    float: left;
+}

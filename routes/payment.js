@@ -28,7 +28,8 @@ function getpaymentPage(req,res) {
             "lld"   : req.session.lld,
             "buy" : 'yes',
             "product_id" : product_id,
-            "req_quantity": req_quan
+            "req_quantity": req_quan,
+            "loginhandle":req.session.handle
         };
 
     }
@@ -41,7 +42,8 @@ function getpaymentPage(req,res) {
             "lld"   : req.session.lld,
             "buy" : 'no',
             "product_id" : 1,
-            "req_quantity": 1
+            "req_quantity": 1,
+            "loginhandle":req.session.handle
         };
 
     }
@@ -360,6 +362,7 @@ function orderDetails(req,res) {
         "fname" : req.session.fname,
         "lld"   : req.session.lld,
         "order" : orderId,
+        "loginhandle":req.session.handle
     };
 
 
@@ -419,6 +422,7 @@ function getPurchaseOrderPage(req,res) {
         "email" : req.session.email,
         "fname" : req.session.fname,
         "lld"   : req.session.lld,
+        "loginhandle":req.session.handle
         
     };
 
@@ -443,7 +447,7 @@ function getPurchaseOrderPage(req,res) {
 function loadPurchase(req,res) {
 
 
-    var query = "select P.product_id,P.product_name, P.details, O.order_date,O.order_id,O.buyer_id, U.first_name, U.last_name,O.quantity, O.total from order_details as O,product_details as P, user_details as U where O.buyer_id="+req.session.user_id+" and O.product_id = P.product_id and O.seller_id=U.user_id and O.isAuction='No' order by order_id";
+    var query = "select P.product_id,P.product_name, P.details, O.order_date,O.order_id,O.buyer_id, U.first_name, U.last_name,O.quantity, O.total, O.isAuction from order_details as O,product_details as P, user_details as U where O.buyer_id="+req.session.user_id+" and O.product_id = P.product_id and O.seller_id=U.user_id order by order_id";
     console.log("Query is "+query);
     mysql.fetchData(function (err,result) {
 

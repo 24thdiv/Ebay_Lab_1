@@ -11,7 +11,8 @@ function showAccount (req,res) {
         "user_id" : req.session.user_id,
         "email" : req.session.email,
         "fname" : req.session.fname,
-        "lld"   : req.session.lld
+        "lld"   : req.session.lld,
+        "loginhandle":req.session.handle
     }
 
     ejs.renderFile('./views/account.ejs',data, function (err,result) {
@@ -32,7 +33,8 @@ function mySellItems(req,res) {
         "user_id" : req.session.user_id,
         "email" : req.session.email,
         "fname" : req.session.fname,
-        "lld"   : req.session.lld
+        "lld"   : req.session.lld,
+        "loginhandle":req.session.handle
     }
     ejs.renderFile('./views/mySellList.ejs',data, function (err,result) {
 
@@ -141,7 +143,8 @@ function getSellItemPage(req,res) {
         "user_id" : req.session.user_id,
         "email" : req.session.email,
         "fname" : req.session.fname,
-        "lld"   : req.session.lld
+        "lld"   : req.session.lld,
+        "loginhandle":req.session.handle
     }
 
     ejs.renderFile('./views/SellItem.ejs',data, function (err,result) {
@@ -159,7 +162,71 @@ function getSellItemPage(req,res) {
 
 }
 
+function getuserInfo(req,res) {
 
+    var handle = req.params.username;
+    console.log("Handle is "+handle);
+
+    var data = {
+        "user_id" : req.session.user_id,
+        "email" : req.session.email,
+        "fname" : req.session.fname,
+        "lld"   : req.session.lld,
+        "handle": handle,
+        "loginhandle":req.session.handle
+    }
+
+    ejs.renderFile('./views/userInfo.ejs',data, function (err,result) {
+
+        if(err)
+            res.send("An error occurred to get sell Item page");
+        else
+            console.log('getting sell Item in page');
+        res.end(result);
+
+    });
+
+
+}
+
+function loaduserPage(req,res) {
+
+
+    var handle = req.param("handle");
+    console.log("Handle is "+handle);
+
+    var loginhandle = req.session.handle;
+    var query="select P.* from product_details as P, user_details as U where P.quantity>0 and U.handle='"+handle+"' and P.seller_user_id=U.user_id";
+    console.log("Query is "+query);
+
+    mysql.fetchData(function (err,result) {
+
+        if(err){
+            console.log(err);
+            var json = {"statusCode": 401};
+            res.send(json);
+        }
+        else if(result.length>0){
+            console.log("All product Result");
+            console.log(result);
+            var json = {"statusCode": 200, "data":result, "loginhandle":loginhandle};
+            res.send(json);
+        }
+        else{
+
+            console.log("result");
+            console.log(result);
+            var json = {"statusCode":201,"loginhandle":loginhandle};
+            res.send(json);
+        }
+
+    },query);
+
+
+}
+
+exports.loaduserPage=loaduserPage;
+exports.getuserInfo= getuserInfo;
 exports.showAccount = showAccount;
 exports.mySellItems = mySellItems;
 exports.getAccountDetails = getAccountDetails;

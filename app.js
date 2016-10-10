@@ -67,6 +67,8 @@ app.get('/mySellItems', account.mySellItems);
 app.post('/getAccountDetails', account.getAccountDetails);
 app.post('/changeAccountDetails', account.changeAccountDetails);
 app.get('/sellItemPage', account.getSellItemPage);
+app.get('/user/:username', account.getuserInfo);
+app.post('/loaduserPage',account.loaduserPage);
 
 app.post('/sellItem', sell.sellItem);
 app.post('/getSellItems', sell.getSellItems);

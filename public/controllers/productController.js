@@ -388,7 +388,6 @@ product.controller('product', function($scope, $http,$interval) {
         var validate = true;
         if(quantity>Number($scope.cartItems[index].tq)){
             var name = $scope.cartItems[index].product_name;
-            alert("Product "+name+" does not have enough quantity ");
             validate = false;
 
            document.getElementById("quantity-"+index).value = $scope.cartItems[index].rq;
@@ -665,7 +664,7 @@ product.controller('product', function($scope, $http,$interval) {
                     console.log("status code 200");
                     var orderId = data.data;
                     console.log("Order id "+orderId);
-                    alert(orderId);
+                   // alert(orderId);
                     window.location.href="/orderDetails?orderId="+orderId;
                     
                 }

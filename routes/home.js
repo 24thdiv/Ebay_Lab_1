@@ -11,7 +11,8 @@ function homepage(req,res){
             "user_id" : req.session.user_id,
             "email" : req.session.email,
             "fname" : req.session.fname,
-            "lld"   : req.session.lld
+            "lld"   : req.session.lld,
+            "loginhandle":req.session.handle
         };
 
         ejs.renderFile('./views/home.ejs',data, function (err, result) {
@@ -73,28 +74,41 @@ function getAllItems(req,res) {
 
 function getProductDetailsPage(req,res) {
 
-    var product_id = req.query.id;
-    console.log("Product ID "+ product_id);
+
+    if(!req.session.user_id) {
+
+        res.redirect("/signIn");
+    }
+    else{
 
 
-    var data = {
-        "user_id" : req.session.user_id,
-        "email" : req.session.email,
-        "fname" : req.session.fname,
-        "lld"   : req.session.lld,
-        "product_id" : product_id
-    };
-
-    ejs.renderFile('./views/productPage.ejs',data, function (err, result) {
-
-        if (err)
-            res.send("An error occured to product page page");
-        else
-            console.log('getting product page');
-        res.end(result);
+        var product_id = req.query.id;
+        console.log("Product ID "+ product_id);
 
 
-    });
+        var data = {
+            "user_id" : req.session.user_id,
+            "email" : req.session.email,
+            "fname" : req.session.fname,
+            "lld"   : req.session.lld,
+            "product_id" : product_id,
+            "loginhandle":req.session.handle
+        };
+
+        ejs.renderFile('./views/productPage.ejs',data, function (err, result) {
+
+            if (err)
+                res.send("An error occured to product page page");
+            else
+                console.log('getting product page');
+            res.end(result);
+
+
+        });
+
+
+
+    }
 
 
 }
@@ -115,7 +129,7 @@ function getProductDetails(req,res) {
 
             console.log("Product Details-----------------------------------------")
             console.log(result);
-            var query1 = "select first_name,last_name from user_details where user_id="+result[0].seller_user_id;
+            var query1 = "select first_name,last_name,handle from user_details where user_id="+result[0].seller_user_id;
             mysql.fetchData(function (err,result1) {
 
                 if(err){
@@ -128,6 +142,7 @@ function getProductDetails(req,res) {
                     console.log(result1);
                     result[0].first_name = result1[0].first_name;
                     result[0].last_name = result1[0].last_name;
+                    result[0].handle = result1[0].handle;
                     var json = {"statusCode" : 200, "data":result};
                     res.send(json);
 
@@ -217,7 +232,8 @@ function getShoppingCart(req, res) {
         "user_id" : req.session.user_id,
         "email" : req.session.email,
         "fname" : req.session.fname,
-        "lld"   : req.session.lld
+        "lld"   : req.session.lld,
+        "loginhandle":req.session.handle
     };
     console.log("get shopping cart routes");
     ejs.renderFile('./views/shoppingCart.ejs',data, function (err, result) {
@@ -364,7 +380,8 @@ function getsearchpage(req,res) {
         "email" : req.session.email,
         "fname" : req.session.fname,
         "lld"   : req.session.lld,
-        "search": search
+        "search": search,
+        "loginhandle":req.session.handle
     };
     console.log("get search page routes");
     ejs.renderFile('./views/searchresult.ejs',data, function (err, result) {

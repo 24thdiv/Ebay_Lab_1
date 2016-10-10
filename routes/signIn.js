@@ -63,6 +63,7 @@ function checklogin(req,res){
                         console.log(date);
 
                         req.session.lld = date[0];
+
                         console.log("session user_id " + req.session.user_id);
                         console.log("session email " + req.session.email);
                         console.log("session fname " + req.session.fname);
@@ -78,8 +79,29 @@ function checklogin(req,res){
                             else {
                                 console.log("Result 1 login date--------");
 
-                                var json_responses = {"statusCode": 200, "data": result};
-                                res.send(json_responses);
+
+                                var query2 = "select * from user_details where user_id="+req.session.user_id;
+                                mysql.fetchData(function (err,result2) {
+
+                                    if(err){
+
+                                        console.log(err);
+                                        throw  err;
+
+                                    }
+                                    else{
+
+                                        req.session.handle = result2[0].handle;
+                                        console.log("Login handle "+req.session.handle);
+                                        var json_responses = {"statusCode": 200, "data": result};
+                                        res.send(json_responses);
+
+
+                                    }
+
+                                },query2);
+
+
                             }
 
                         }, querylogin);
@@ -140,8 +162,9 @@ function registerUser(req,res){
                 req.session.email = email;
                 req.session.fname = fname;
 
-
-            var querydetails = "insert into user_details (user_id,first_name,last_name,mobile_no,created_date,updated_date,address,city,state,pin_code) values ("+id+",'"+fname+"','"+lname+"','"+phone+"',sysdate(),sysdate(),'"+address+"','"+city+"','"+state+"','"+pin+"')";
+                var handle = fname+lname;
+                console.log("Handle is "+handle);
+                var querydetails = "insert into user_details (user_id,first_name,last_name,mobile_no,created_date,updated_date,address,city,state,pin_code,handle) values ("+id+",'"+fname+"','"+lname+"','"+phone+"',sysdate(),sysdate(),'"+address+"','"+city+"','"+state+"','"+pin+"','"+handle+"')";
                  console.log("Query is " + querydetails);
                   mysql.fetchData(function (err,result1) {
                         if(err){
@@ -174,7 +197,7 @@ function registerUser(req,res){
 function logout(req,res){
 
     req.session.destroy();
-
+    res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
     res.redirect("/");
 
 }
