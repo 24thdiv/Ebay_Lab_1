@@ -35,10 +35,10 @@ function getAllItems(req,res) {
     console.log("user_id "+user_id);
     if(user_id==undefined)
     {
-        var query = "select * from product_details where quantity>0";
+        var query = "select * from product_details where quantity>0 and auction_enddate>sysdate()";
     }
     else{
-        var query = "select * from product_details where quantity>0 and seller_user_id!="+user_id;
+        var query = "select * from product_details where quantity>0 and auction_enddate>sysdate() and seller_user_id!="+user_id;
     }
 
 
@@ -113,6 +113,8 @@ function getProductDetails(req,res) {
         }
         else if(result.length>0){
 
+            console.log("Product Details-----------------------------------------")
+            console.log(result);
             var query1 = "select first_name,last_name from user_details where user_id="+result[0].seller_user_id;
             mysql.fetchData(function (err,result1) {
 

@@ -5,7 +5,7 @@
 
 var product = angular.module('product', ['ngMessages']);
 
-product.controller('product', function($scope, $http) {
+product.controller('product', function($scope, $http,$interval) {
 
 
 
@@ -75,11 +75,54 @@ product.controller('product', function($scope, $http) {
                 $scope.quantity = items[0].quantity;
                 $scope.price = items[0].price;
                 $scope.req_quantity = 1;
+                console.log("Start Date is--------");
+                console.log(new Date($scope.itemDetail[0].auction_startdate));
+                var id = document.getElementById("timer");
+
+                if($scope.itemDetail[0].isAuction==='Yes') {
+
+                    //$interval(getTimeRemaining(id, new Date($scope.itemDetail[0].auction_enddate), 1000));
+                    initializeClock('timer', new Date($scope.itemDetail[0].auction_enddate));
+
+                }
+
             }
 
         }).error(function(error) {
             console.log(error);
         });
+    }
+
+
+    function getTimeRemaining(endtime){
+        var t = Date.parse(endtime) - Date.parse(new Date());
+        var seconds = Math.floor( (t/1000) % 60 );
+        var minutes = Math.floor( (t/1000/60) % 60 );
+        var hours = Math.floor( (t/(1000*60*60)) % 24 );
+        var days = Math.floor( t/(1000*60*60*24) );
+        return {
+            'total': t,
+            'days': days,
+            'hours': hours,
+            'minutes': minutes,
+            'seconds': seconds
+        };
+    }
+
+
+    function initializeClock(id, endtime){
+        var clock = document.getElementById(id);
+        var timeinterval = setInterval(function(){
+            var t = getTimeRemaining(endtime);
+            clock.innerHTML = t.days + ' days ' +
+                t.hours +' hours '+
+                t.minutes +' minutes ' +
+                t.seconds+' seconds remaining' ;
+            if(t.total<=0){
+                clearInterval(timeinterval);
+                window.location.href='/';
+            }
+        },1000);
     }
 
 

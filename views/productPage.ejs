@@ -52,10 +52,14 @@
                        <div class="product-title"><b>{{itemDetail[0].product_name}}</b></div>
                        <div class="product-desc">{{itemDetail[0].details}}</div>
                        <div class="product-rating"><i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star-o"></i> </div>
+                       <div ng-if="itemDetail[0].isAuction==='Yes'" class="product-price" style="color: darkred;"><b>On Auction</b></div>
                        <hr>
                        <div ng-if="itemDetail[0].isAuction==='No'" class="product-price">Price ${{itemDetail[0].price}}</div>
                        <div ng-if="itemDetail[0].isAuction==='Yes'" class="product-price">Current Bid Price ${{itemDetail[0].bid_price || 'New'}} </div>
-                       <div class="product-stock">In Stock</div>
+                       <div ng-if="itemDetail[0].isAuction==='No'" class="product-stock">In Stock</div>
+
+                       <div id="timer" ng-model="timer" class="product-stock" style="color: darkblue;"></div>
+
                        <hr>
                        <div ng-if="itemDetail[0].isAuction==='No'">Available Quantity {{itemDetail[0].quantity}}</div>
                        <br>
