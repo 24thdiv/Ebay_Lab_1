@@ -5,6 +5,8 @@ var bcrypt = require('bcryptjs');
 var ejs = require("ejs");
 var mysql = require('./mysql.js');
 var logger = require('./log.js');
+var shortid = require('shortid');
+
 
 function login(req, res) {
 
@@ -165,7 +167,7 @@ function registerUser(req,res){
                 req.session.email = email;
                 req.session.fname = fname;
 
-                var handle = fname+lname;
+                var handle = fname+"-"+shortid.generate();
                 console.log("Handle is "+handle);
                 var querydetails = "insert into user_details (user_id,first_name,last_name,mobile_no,created_date,updated_date,address,city,state,pin_code,handle) values ("+id+",'"+fname+"','"+lname+"','"+phone+"',sysdate(),sysdate(),'"+address+"','"+city+"','"+state+"','"+pin+"','"+handle+"')";
                  console.log("Query is " + querydetails);

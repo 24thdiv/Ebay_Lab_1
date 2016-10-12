@@ -44,6 +44,24 @@ app.use(session({
 ));
 
 
+
+var checkuser = function (req, res, next) {
+  console.log('checking user');
+
+  if(!req.session.user_id){
+
+    res.redirect('/signIn');
+  }
+  else{
+
+    next();
+  }
+};
+
+//app.use(checkuser);
+
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -67,12 +85,12 @@ app.get('/logout', signIn.logout);
 
 
 
-app.get('/accountManagement', account.showAccount);
-app.get('/mySellItems', account.mySellItems);
+app.get('/accountManagement', checkuser,account.showAccount);
+app.get('/mySellItems',checkuser, account.mySellItems);
 app.post('/getAccountDetails', account.getAccountDetails);
 app.post('/changeAccountDetails', account.changeAccountDetails);
-app.get('/sellItemPage', account.getSellItemPage);
-app.get('/user/:username', account.getuserInfo);
+app.get('/sellItemPage',checkuser, account.getSellItemPage);
+app.get('/user/:username',checkuser, account.getuserInfo);
 app.post('/loaduserPage',account.loaduserPage);
 
 app.post('/sellItem', sell.sellItem);
@@ -81,23 +99,23 @@ app.post('/getSellItems', sell.getSellItems);
 
 app.get('/', home.homepage);
 app.post('/getAllItems', home.getAllItems);
-app.get('/product_details', home.getProductDetailsPage);
+app.get('/product_details',checkuser, home.getProductDetailsPage);
 app.post('/getProductDetails', home.getProductDetails);
 app.post('/addtoShoppingCart', home.addtoShoppingCart);
-app.get('/getShoppingCart', home.getShoppingCart);
-app.get('/loadShoppingCart', home.loadShoppingCart);
+app.get('/getShoppingCart', checkuser,home.getShoppingCart);
+app.get('/loadShoppingCart',checkuser, checkuser,home.loadShoppingCart);
 app.post('/updateShoppingCart', home.updateShoppingCart);
 app.delete('/deleteItemfromcart', home.deleteItemfromcart);
 app.post('/makeBid', home.makeBid);
-app.get('/getsearchpage', home.getsearchpage);
+app.get('/getsearchpage',checkuser, home.getsearchpage);
 app.post('/loadsearchpage', home.loadsearchpage);
 
-app.get('/getpaymentPage', payment.getpaymentPage);
+app.get('/getpaymentPage',checkuser, payment.getpaymentPage);
 app.post('/loadPaymentPage', payment.loadPaymentPage);
 app.post('/confirmOrder', payment.confirmOrder);
-app.get('/orderDetails', payment.orderDetails);
+app.get('/orderDetails',checkuser, payment.orderDetails);
 app.post('/loadOrder',payment.loadOrder );
-app.get('/getPurchaseOrderPage', payment.getPurchaseOrderPage);
+app.get('/getPurchaseOrderPage',checkuser, payment.getPurchaseOrderPage);
 app.post('/loadPurchase', payment.loadPurchase);
 
 // catch 404 and forward to error handler
