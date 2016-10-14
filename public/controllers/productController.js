@@ -285,7 +285,8 @@ product.controller('product', function($scope, $http,$interval) {
 
     $scope.removeitem = function (index) {
 
-
+        $scope.cartempty = false;
+        $scope.cartfull = true;
         var product_id = $scope.cartItems[index].product_id;
 
         $http({
@@ -314,7 +315,11 @@ product.controller('product', function($scope, $http,$interval) {
                     grandtotal = grandtotal + $scope.cartItems[i].total;
                 }
                 $scope.grandTotal = grandtotal;
+                if($scope.cartItems.length==0){
 
+                    $scope.cartfull=false;
+                    $scope.cartempty = true;
+                }
 
             }
 

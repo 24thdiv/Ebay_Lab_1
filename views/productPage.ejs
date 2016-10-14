@@ -40,7 +40,7 @@
                         <div class="product col-md-8 service-image-left" style="background-color: white">
 
                         <center>
-                            <img style="margin-top: 50px" id="item-display" src="http://pngimg.com/upload/laptop_PNG5941.png" alt=""></img>
+                            <img style="margin-top: 50px" id="item-display" src="../images/ebay.png" alt=""></img>
                         </center>
                         </div>
 
@@ -72,6 +72,9 @@
                            <div class="col-md-2">
                                <input type="text" class="form-control" id="req_quantity" ng-model="req_quantity" value="1">
                            </div>
+                           <div class="col-md-7">
+                               <label ng-show="quantity_error" style="color: red">Not Enough Quantity Available</label>
+                           </div>
 
                        </div>
 
@@ -102,7 +105,7 @@
                                </a>
 
                            </div>
-                           <span style="color: red" ng-show="already">  Already in Cart</span>
+                           <span style="color: red" ng-show="already"> <label> Already in Cart</label></span>
                        </div>
 
 

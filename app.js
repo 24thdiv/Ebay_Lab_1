@@ -14,8 +14,9 @@ var sell = require('./routes/sell');
 var payment = require('./routes/payment');
 var logDir = 'log';
 var app = express();
+var mysql = require('./routes/mysql');
 
-
+mysql.CreateConnectionPool(1000);
 
 /*
 
@@ -26,7 +27,8 @@ app.use(function(req, res, next) {
 
 */
 
-var cronJob = cron.job("0 */1 * * * *",payment.auctionjob);
+
+var cronJob = cron.job("0 */10 * * * *",payment.auctionjob);
 //cronJob.start();
 
 
