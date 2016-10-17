@@ -50,12 +50,14 @@ function getAllItems(req,res) {
 
         if(err){
             console.log(err);
+           
             var json = {"statusCode": 401};
             res.send(json);
         }
         else if(result.length>0){
             console.log("All product Result");
             console.log(result);
+          
             var json = {"statusCode": 200, "data":result};
             res.send(json);
         }
@@ -63,6 +65,7 @@ function getAllItems(req,res) {
 
             console.log("result");
             console.log(result);
+           
             var json = {"statusCode":201};
             res.send(json);
         }
@@ -124,6 +127,7 @@ function getProductDetails(req,res) {
 
         if(err){
             console.log(err);
+          
             json = {"statusCode" : 401};
             res.send(json);
         }
@@ -135,6 +139,7 @@ function getProductDetails(req,res) {
             mysql.fetchData(function (err,result1) {
 
                 if(err){
+                   
                     console.log(err);
                     json = {"statusCode" : 401};
                     res.send(json);
@@ -145,6 +150,7 @@ function getProductDetails(req,res) {
                     result[0].first_name = result1[0].first_name;
                     result[0].last_name = result1[0].last_name;
                     result[0].handle = result1[0].handle;
+                   
                     var json = {"statusCode" : 200, "data":result};
                     res.send(json);
 
@@ -155,6 +161,7 @@ function getProductDetails(req,res) {
         }
         else{
             console.log(result);
+            
             var json = {"statusCode" : 201};
             res.send(json);
         }
@@ -423,6 +430,7 @@ function loadsearchpage(req,res) {
         if(err){
 
             console.log(err);
+           
             var json = {"statusCode":401};
             res.send(json);
         }
@@ -430,6 +438,7 @@ function loadsearchpage(req,res) {
 
             console.log("result");
             console.log(result);
+           
             var json={"statusCode":200, "data":result};
             res.send(json);
         }
@@ -437,6 +446,7 @@ function loadsearchpage(req,res) {
 
             console.log("result is empty");
             console.log(result);
+            
             var json={"statusCode":201};
             res.send(json);
 

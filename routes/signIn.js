@@ -97,6 +97,7 @@ function checklogin(req,res){
 
                                         req.session.handle = result2[0].handle;
                                         console.log("Login handle "+req.session.handle);
+                                      
                                         var json_responses = {"statusCode": 200, "data": result};
                                         logger.eventlog.info(req.session.user_id+"-Login"+"-User logged in");
                                         res.send(json_responses);
@@ -111,9 +112,17 @@ function checklogin(req,res){
 
                         }, querylogin);
                     }
+                    else {
+                        console.log("Password not matched");
+                       
+                        var json_responses = {"statusCode": 401};
+                        res.send(json_responses);
+                    }
+
                 }
                 else {
                     console.log("Invalid Login");
+                   
                     var json_responses = {"statusCode": 401};
                     res.send(json_responses);
                 }
@@ -121,12 +130,6 @@ function checklogin(req,res){
   
 
         },query);
-
-
-        /*console.log("bcrypt password "+ passwordToSave );
-        var bcr = bcrypt.compareSync("ivya", passwordToSave);
-        console.log(" check password "+bcr)
-*/
 
 }
 

@@ -214,12 +214,13 @@ function loaduserPage(req,res) {
 
         if(err){
             console.log(err);
+           
             var json = {"statusCode": 401};
             res.send(json);
         }
         else if(result.length>0){
-            console.log("All product Result");
             console.log(result);
+           
             var json = {"statusCode": 200, "data":result, "loginhandle":loginhandle};
             res.send(json);
         }
@@ -227,6 +228,7 @@ function loaduserPage(req,res) {
 
             console.log("result");
             console.log(result);
+           
             var json = {"statusCode":201,"loginhandle":loginhandle};
             res.send(json);
         }

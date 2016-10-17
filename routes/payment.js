@@ -335,29 +335,7 @@ function orderDetails(req,res) {
     var orderId = req.query.orderId;
     console.log("Order Id "+orderId);
 
-/*
-    var query = "SELECT * FROM ebay_db.order_details where order_id="+orderId;
-    console.log("Query is "+query);
-    var json={};
-    mysql.fetchData(function (err,result) {
 
-        if(err){
-
-            console.log(err);
-            json = {"statusCode":401};
-
-
-        }
-        else{
-
-            json={"statusCode":200, "data":result};
-
-
-        }
-
-
-    },query);
-*/
 
     var data = {
         "user_id" : req.session.user_id,
@@ -400,15 +378,25 @@ function loadOrder(req,res) {
      if(err){
 
         console.log(err);
+       
         json = {"statusCode":401};
          res.send(json);
 
      }
-     else
+     else if(result.length>0)
      {
 
+        
         json={"statusCode":200, "data":result};
         res.send(json);
+     }
+     else{
+
+        
+         json={"statusCode":200, "data":result};
+         res.send(json);
+
+
      }
 
 

@@ -28,7 +28,7 @@ app.use(function(req, res, next) {
 */
 
 
-var cronJob = cron.job("0 */10 * * * *",payment.auctionjob);
+var cronJob = cron.job("0 */1 * * * *",payment.auctionjob);
 //cronJob.start();
 
 
